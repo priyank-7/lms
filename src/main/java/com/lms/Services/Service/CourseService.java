@@ -18,4 +18,10 @@ public interface CourseService {
 
     CourseDTO getCourseByName(String name);
 
+    CourseDTO getCourseByCreditsIsLessThanEqual(Float credits);
+
+    CourseDTO getCourseByCreditsIsGreaterThanEqual(Float credits);
+
+    CourseDTO getCourseByCreditsEquals(Float credits);
+
 }

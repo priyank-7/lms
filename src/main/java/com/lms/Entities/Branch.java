@@ -20,8 +20,4 @@ public class Branch {
     private String branch_id;
     @NotBlank
     private String name;
-    @OneToMany
-    private List<Student> students;
-    @OneToMany
-    private List<Faculty> faculties;
 }
