@@ -2,6 +2,7 @@ package com.lms.DTOs;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.Date;
 @Setter
 public class FacultyDTO {
 
+    @Null
     private String Id;
     @NotBlank(message = "Faculty name cannot be blank")
     private String name;

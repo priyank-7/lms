@@ -33,13 +33,9 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Branch updateBranch(String id, Branch branch) throws BadCredentialsException {
-        if (!branch.getBranch_id().equals(id)){
-            throw new BadCredentialsException("Branch ID not matched");
-        }
-        branch.setBranch_id(id);
+    public Branch updateBranch(String id, Branch branch) throws ResourceNotFoundException {
         this.branchRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Branch not found with Provided ID: " + id));
-        return this.branchRepository.save(Branch.builder().branch_id(branch.getBranch_id()).name(branch.getName()).build());
+        return this.branchRepository.save(Branch.builder().branch_id(id).name(branch.getName()).build());
     }
 
     @Override

@@ -15,7 +15,7 @@ public interface BranchService {
 
         void deleteBranch(String id) throws ResourceNotFoundException;
 
-        Branch updateBranch(String id, Branch branch) throws BadCredentialsException;
+        Branch updateBranch(String id, Branch branch) throws ResourceNotFoundException;
 
         Branch getBranch(String id);
 

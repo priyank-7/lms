@@ -31,7 +31,7 @@ public class BranchController {
     }
 
     @PutMapping("/updateBranch/{branchId}")
-    public ResponseEntity<Branch> updateBranch(@PathVariable String branchId, @Valid @RequestBody Branch branch){
+    public ResponseEntity<Branch> updateBranch(@PathVariable String branchId, @Valid @RequestBody Branch branch) throws Exception{
         return ResponseEntity.ok(branchService.updateBranch(branchId, branch));
     }
 

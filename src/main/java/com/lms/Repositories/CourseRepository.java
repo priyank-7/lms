@@ -4,14 +4,17 @@ import com.lms.Entities.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface CourseRepository extends JpaRepository<Course,String> {
 
-    Course getCourseByName(String name);
+    Optional<Course> findByName(String name);
 
-    Course getCourseByCreditsIsLessThanEqual(Float credits);
+    List<Course> findByCreditsIsLessThanEqual(Float credits);
 
-    Course getCourseByCreditsIsGreaterThanEqual(Float credits);
+    List<Course> findByCreditsIsGreaterThanEqual(Float credits);
 
-    Course getCourseByCreditsEquals(Float credits);
+    List<Course> findByCreditsEquals(Float credits);
 }

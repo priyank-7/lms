@@ -28,8 +28,8 @@ public class Faculty {
     private String gender;
     private String qualification;
     private String image_url;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Roles> role;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Course> courseList;
 }

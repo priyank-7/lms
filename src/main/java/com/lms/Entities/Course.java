@@ -1,10 +1,9 @@
 package com.lms.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
 
@@ -18,6 +17,9 @@ public class Course {
 
     @Id
     private String course_id;
+    @NotBlank
+    @Column(unique = true)
+    private String course_code;
     @NotBlank
     private String name;
     private String description;

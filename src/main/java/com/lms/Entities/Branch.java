@@ -1,5 +1,6 @@
 package com.lms.Entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -19,5 +20,6 @@ public class Branch {
     @Id
     private String branch_id;
     @NotBlank
+    @Column(unique = true)
     private String name;
 }

@@ -37,14 +37,14 @@ public class Student {
     private Branch branch;
     private Date enrollment_date;
     private String image_url;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_roles",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     )
     private Set<Roles> role;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_course",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "student_id"),
