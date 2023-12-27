@@ -1,21 +1,29 @@
 package com.lms.Services.Service;
 
+import com.lms.DTOs.CourseDTO;
+import com.lms.DTOs.FacultyDTO;
+import com.lms.Entities.Branch;
+
 import java.util.List;
 
 public interface FacultyService {
 
-    List<FacultyService> getAllFaculties();
+    List<FacultyDTO> getAllFaculties();
 
-    FacultyService getFaculty(String id);
+    FacultyDTO getFaculty(String id);
 
-    void addFaculty(FacultyService facultyDTO);
+    FacultyDTO addFaculty(FacultyDTO facultyDTO);
 
-    void updateFaculty(String id, FacultyService facultyDTO);
+    FacultyDTO updateFaculty(String id, FacultyDTO facultyDTO);
 
     void deleteFaculty(String id);
 
-    FacultyService getFacultyByBranch(String branchId);
+    List<FacultyDTO> getFacultyByName(String name);
 
-    FacultyService getFacultyByName(String name);
+    List<FacultyDTO> getFacultyByBranch(Branch branch);
+
+    List<FacultyDTO> getFacultyByCourse(CourseDTO courseDTO);
+
+    FacultyDTO addCourseToFaculty(String faculty_id, List<CourseDTO> courses);
 
 }

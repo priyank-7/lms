@@ -17,4 +17,5 @@ public interface CourseRepository extends JpaRepository<Course,String> {
     List<Course> findByCreditsIsGreaterThanEqual(Float credits);
 
     List<Course> findByCreditsEquals(Float credits);
+
 }

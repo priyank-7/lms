@@ -1,23 +1,22 @@
 package com.lms.DTOs;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Size;
+import com.lms.Entities.Branch;
+import com.lms.Entities.Course;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
 @Setter
 public class FacultyDTO {
 
-    @Null
-    private String Id;
+    private String faculty_id;
     @NotBlank(message = "Faculty name cannot be blank")
     private String name;
     @Email(message = "Email should be valid")
@@ -28,11 +27,17 @@ public class FacultyDTO {
     @NotBlank(message = "Address cannot be blank")
     @Size(max = 200, message = "Address should be less than 200 characters")
     private String address;
+    @NotNull(message = "Date of birth cannot be null")
     private Date dob;
+    @NotNull(message = "Joining date cannot be null")
     private Date joining_date;
-    @NotBlank
+    @NotBlank(message = "Branch cannot be blank")
+    private Branch branch;
+    @NotBlank(message = "Faculty Gender cannot be blank")
     private String gender;
-    @NotBlank
+    @NotBlank(message = "Qualification cannot be blank")
     private String qualification;
+    @Null(message = "Image URL should be null")
     private String image_url;
+    private List<CourseDTO> courseList;
 }

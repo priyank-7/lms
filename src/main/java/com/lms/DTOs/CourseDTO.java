@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
 public class CourseDTO {
 
-    @Null(message = "Course id must be null")
     private String course_id;
     @NotBlank(message = "Course code cannot be blank")
     private String course_code;
@@ -20,4 +21,5 @@ public class CourseDTO {
     @NotNull(message = "Credits cannot be null")
     @PositiveOrZero(message = "Credits must be positive or zero")
     private Float credits;
+    private List<FacultyDTO> faculties;
 }

@@ -1,7 +1,9 @@
 package com.lms.Services.ServiceImpl;
 
 import com.lms.DTOs.CourseDTO;
+import com.lms.DTOs.FacultyDTO;
 import com.lms.Entities.Course;
+import com.lms.Entities.Faculty;
 import com.lms.Exception.ResourceNotFoundException;
 import com.lms.Repositories.CourseRepository;
 import com.lms.Services.Service.CourseService;
@@ -67,12 +69,6 @@ public class CourseServiceImpl implements CourseService {
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    public CourseDTO getCourseByCode(String code) {
-//        return CourseToCourseDTO(this.courseRepository.findCourseByCourse_code(code)
-//                .orElseThrow(()-> new ResourceNotFoundException("Course not found with Provided Code: " + code)));
-//    }
-
     @Override
     public CourseDTO getCourseByName(String name) {
         return CourseToCourseDTO(this.courseRepository.findByName(name)
@@ -101,6 +97,25 @@ public class CourseServiceImpl implements CourseService {
                 .name(course.getName())
                 .description(course.getDescription())
                 .credits(course.getCredits())
+                .build();
+    }
+
+    public static Course CourseDTOTOCourse(CourseDTO courseDTO){
+        return Course.builder()
+                .course_id(courseDTO.getCourse_id())
+                .course_code(courseDTO.getCourse_code())
+                .name(courseDTO.getName())
+                .description(courseDTO.getDescription())
+                .credits(courseDTO.getCredits())
+                .build();
+    }
+
+    public static FacultyDTO CourseFacultyToFacultyDTO(Faculty faculty){
+        return FacultyDTO.builder()
+                .faculty_id(faculty.getId())
+                .name(faculty.getName())
+                .email(faculty.getEmail())
+                .phone(faculty.getPhone())
                 .build();
     }
 }

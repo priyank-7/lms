@@ -3,7 +3,6 @@ package com.lms.Entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
 
@@ -24,8 +23,8 @@ public class Course {
     private String name;
     private String description;
     private Float credits;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "courseList")
     private List<Faculty> faculties;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "courseList")
     private List<Student> students;
 }

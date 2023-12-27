@@ -15,7 +15,7 @@ import java.util.List;
 public class Faculty {
 
     @Id
-    private String Id;
+    private String id;
     private String name;
     private String email;
     private String password;
@@ -23,13 +23,13 @@ public class Faculty {
     private String address;
     private Date dob;
     private Date joining_date;
-    @ManyToOne
+    @OneToOne
     private Branch branch;
     private String gender;
     private String qualification;
     private String image_url;
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Roles> role;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Course> courseList;
 }

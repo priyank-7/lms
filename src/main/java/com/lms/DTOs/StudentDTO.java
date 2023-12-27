@@ -1,5 +1,7 @@
 package com.lms.DTOs;
 
+import com.lms.Entities.Branch;
+import com.lms.Entities.Course;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Null;
@@ -10,13 +12,13 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Setter
 @Getter
 public class StudentDTO {
 
-    @Null
     private String id;
     @NotBlank(message = "Student name cannot be blank")
     private String name;
@@ -33,4 +35,6 @@ public class StudentDTO {
     private Date dob;
     private Date enrollment_date;
     private String image_url;
+    private Branch branch;
+    private List<Course> courseList;
 }
