@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface FacultyRepository extends JpaRepository<Faculty, String> {
@@ -16,5 +15,5 @@ public interface FacultyRepository extends JpaRepository<Faculty, String> {
 
         List<Faculty> findFacultiesByCourseListIsContaining(Course course);
 
-        Optional<Faculty> findByName(String name);
+        List<Faculty> findByName(String name);
 }

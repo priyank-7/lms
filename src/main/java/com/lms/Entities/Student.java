@@ -23,6 +23,7 @@ public class Student {
     @NotBlank
     private String name;
     @Email
+    @Column(unique = true)
     private String email;
     @Size(min = 8, max = 16)
     private String password;

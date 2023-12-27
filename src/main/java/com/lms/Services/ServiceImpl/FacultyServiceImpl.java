@@ -4,7 +4,9 @@ import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.FacultyDTO;
 import com.lms.Entities.Branch;
 import com.lms.Entities.Faculty;
+import com.lms.Exception.BadCredentialsException;
 import com.lms.Exception.ResourceNotFoundException;
+import com.lms.Helper.ModelMappers;
 import com.lms.Repositories.BranchRepository;
 import com.lms.Repositories.CourseRepository;
 import com.lms.Repositories.FacultyRepository;
@@ -30,26 +32,28 @@ public class FacultyServiceImpl implements FacultyService {
     }
     @Override
     public List<FacultyDTO> getAllFaculties() {
-        return this.facultyRepository.findAll().stream().map(faculty -> FacultyToFacultyDTO(faculty)).collect(Collectors.toList());
+        return this.facultyRepository.findAll().stream().map(faculty -> ModelMappers.FacultyToFacultyDTO(faculty)).collect(Collectors.toList());
     }
 
     @Override
     public FacultyDTO getFaculty(String id) {
-        return FacultyToFacultyDTO(this.facultyRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Faculty not found")));
+        return ModelMappers.FacultyToFacultyDTO(this.facultyRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Faculty not found")));
     }
 
     @Override
     public FacultyDTO addFaculty(FacultyDTO facultyDTO) {
         facultyDTO.setFaculty_id(UUID.randomUUID().toString());
-        return FacultyToFacultyDTO(this.facultyRepository.save(FacultyDTOTOFaculty(facultyDTO)));
+        return ModelMappers.FacultyToFacultyDTO(this.facultyRepository.save(ModelMappers.FacultyDTOTOFaculty(facultyDTO)));
     }
 
     @Override
     public FacultyDTO updateFaculty(String id, FacultyDTO facultyDTO) {
-        this.facultyRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Faculty not found"));
         facultyDTO.setFaculty_id(id);
-        return FacultyToFacultyDTO(this.facultyRepository.save(FacultyDTOTOFaculty(facultyDTO)));
+        return ModelMappers.FacultyToFacultyDTO(
+                this.facultyRepository.save(
+                        ModelMappers.FacultyDTOTOFaculty(
+                                this.facultyRepository.findById(id)
+                                        .orElseThrow(()-> new ResourceNotFoundException("Faculty not found")),facultyDTO)));
     }
 
     @Override
@@ -60,66 +64,43 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public List<FacultyDTO> getFacultyByName(String name) {
-        return this.facultyRepository.findByName(name).stream().map(faculty -> FacultyToFacultyDTO(faculty)).collect(Collectors.toList());
+        return Optional.ofNullable(this.facultyRepository.findByName(name))
+                .orElse(Collections.emptyList())
+                .stream().map(faculty -> ModelMappers.FacultyToFacultyDTO(faculty))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<FacultyDTO> getFacultyByBranch(Branch branch) {
-        return this.facultyRepository.findFacultiesByBranch(
+        return Optional.ofNullable(this.facultyRepository.findFacultiesByBranch(
                 this.branchRepository.findById(branch.getBranch_id())
-                        .orElseThrow(()-> new ResourceNotFoundException("Branch not found with Provided ID: " + branch.getBranch_id())))
+                        .orElseThrow(()-> new ResourceNotFoundException("Branch not found"))))
+                .orElse(Collections.emptyList())
                 .stream()
-                .map(faculty -> FacultyToFacultyDTO(faculty))
+                .map(faculty -> ModelMappers.FacultyToFacultyDTO(faculty))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<FacultyDTO> getFacultyByCourse(CourseDTO courseDTO) {
-        return this.facultyRepository.findFacultiesByCourseListIsContaining(
-                this.courseRepository.findById(courseDTO.getCourse_id()).orElseThrow(()-> new ResourceNotFoundException("Course not found")))
-                .stream()
-                .map(faculty -> FacultyToFacultyDTO(faculty))
+        return Optional.ofNullable(this.facultyRepository.findFacultiesByCourseListIsContaining(
+                this.courseRepository.findById(courseDTO.getCourse_id())
+                        .orElseThrow(()-> new ResourceNotFoundException("Course not found"))))
+                .orElse(Collections.emptyList())
+                .stream().map(faculty -> ModelMappers.FacultyToFacultyDTO(faculty))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public FacultyDTO addCourseToFaculty(String faculty_id, List<CourseDTO> courses) {
-                Faculty temp = this.facultyRepository.findById(faculty_id)
-                .orElseThrow(()-> new ResourceNotFoundException("Faculty not found with Provided ID: " + faculty_id));
-                temp.setCourseList(courses.stream().map(courseDTO -> CourseServiceImpl.CourseDTOTOCourse(courseDTO)).collect(Collectors.toList()));
-                return FacultyToFacultyDTO(this.facultyRepository.save(temp));
-    }
-
-    public static FacultyDTO FacultyToFacultyDTO(Faculty faculty){
-        return FacultyDTO.builder()
-                .faculty_id(faculty.getId())
-                .name(faculty.getName())
-                .email(faculty.getEmail())
-                .phone(faculty.getPhone())
-                .dob(faculty.getDob())
-                .address(faculty.getAddress())
-                .branch(faculty.getBranch())
-                .joining_date(faculty.getJoining_date())
-                .gender(faculty.getGender())
-                .qualification(faculty.getQualification())
-                .image_url(faculty.getImage_url())
-                .courseList(Optional.ofNullable(faculty.getCourseList()).orElse(Collections.emptyList()).stream().map(course -> CourseServiceImpl.CourseToCourseDTO(course)).collect(Collectors.toList()))
-                .build();
-    }
-
-    public static Faculty FacultyDTOTOFaculty(FacultyDTO facultyDTO){
-        return Faculty.builder()
-                .id(facultyDTO.getFaculty_id())
-                .name(facultyDTO.getName())
-                .email(facultyDTO.getEmail())
-                .phone(facultyDTO.getPhone())
-                .dob(facultyDTO.getDob())
-                .address(facultyDTO.getAddress())
-                .branch(facultyDTO.getBranch())
-                .joining_date(facultyDTO.getJoining_date())
-                .gender(facultyDTO.getGender())
-                .qualification(facultyDTO.getQualification())
-                .image_url(facultyDTO.getImage_url())
-                .build();
+    public FacultyDTO addCourseToFaculty(String faculty_id, List<CourseDTO> courses) throws BadCredentialsException {
+        if (courses.isEmpty()){
+            throw new BadCredentialsException("Course List is Empty");
+        }
+        Faculty temp = this.facultyRepository.findById(faculty_id)
+                .orElseThrow(()-> new ResourceNotFoundException("Faculty not found"));
+                temp.setCourseList(courses.stream()
+                        .map(courseDTO -> ModelMappers.CourseDTOTOCourse(courseDTO))
+                        .collect(Collectors.toList()));
+                return ModelMappers.FacultyToFacultyDTO(this.facultyRepository.save(temp));
     }
 }

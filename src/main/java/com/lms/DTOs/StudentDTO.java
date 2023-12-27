@@ -36,5 +36,5 @@ public class StudentDTO {
     private Date enrollment_date;
     private String image_url;
     private Branch branch;
-    private List<Course> courseList;
+    private List<CourseDTO> courseList;
 }

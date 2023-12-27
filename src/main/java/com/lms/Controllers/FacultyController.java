@@ -3,6 +3,7 @@ package com.lms.Controllers;
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.FacultyDTO;
 import com.lms.Entities.Branch;
+import com.lms.Exception.BadCredentialsException;
 import com.lms.Services.Service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,7 @@ public class FacultyController {
     }
 
     @PostMapping("/addcourse/{faculty_id}")
-    public ResponseEntity<FacultyDTO> addCourseToFaculty(@PathVariable String faculty_id, @RequestBody List<CourseDTO> courses){
+    public ResponseEntity<FacultyDTO> addCourseToFaculty(@PathVariable String faculty_id, @RequestBody List<CourseDTO> courses) throws BadCredentialsException {
         return ResponseEntity.ok(this.facultyService.addCourseToFaculty(faculty_id, courses));
     }
 
