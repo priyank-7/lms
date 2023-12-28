@@ -25,13 +25,13 @@ public class CourseController {
         return ResponseEntity.ok(this.courseService.addCourse(courseDTO));
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<String> deleteCourse(String id) {
+    @PostMapping("/{id}/delete")
+    public ResponseEntity<String> deleteCourse(@PathVariable String id) {
         this.courseService.deleteCourse(id);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/update/{course_id}")
+    @PutMapping("/{course_id}/update")
     public ResponseEntity<CourseDTO> updateCourse(@PathVariable String course_id ,@Valid @RequestBody CourseDTO courseDTO) {
         return ResponseEntity.ok(this.courseService.updateCourse(course_id, courseDTO));
     }

@@ -27,4 +27,6 @@ public interface StudentService {
     List<StudentDTO> getStudentByCourse(CourseDTO courseDTO);
 
     StudentDTO addCourseToStudent(String studentId, List<CourseDTO> courses) throws BadCredentialsException;
+
+    StudentDTO removeCourseFromStudent(String studentId, CourseDTO courseDTO) throws BadCredentialsException;
 }

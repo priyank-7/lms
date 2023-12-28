@@ -27,4 +27,6 @@ public interface FacultyService {
 
     FacultyDTO addCourseToFaculty(String faculty_id, List<CourseDTO> courses) throws BadCredentialsException;
 
+    FacultyDTO removeCourseFromFaculty(String faculty_id, CourseDTO courseDTO);
+
 }

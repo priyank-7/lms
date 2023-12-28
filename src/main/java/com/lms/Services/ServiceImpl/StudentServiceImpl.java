@@ -102,4 +102,17 @@ public class StudentServiceImpl implements StudentService {
                 .collect(Collectors.toList()));
         return ModelMappers.StudentToStudentDTO(this.studentRepository.save(temp));
     }
+
+    @Override
+    public StudentDTO removeCourseFromStudent(String studentId, CourseDTO courseDTO){
+
+        Student temp = this.studentRepository.findById(studentId)
+                .orElseThrow(()-> new ResourceNotFoundException("Student Not Found"));
+        if (!temp.getCourseList().isEmpty()) {
+            temp.setCourseList(temp.getCourseList().stream()
+                    .filter(course -> !course.getCourse_id().equals(courseDTO.getCourse_id()))
+                    .collect(Collectors.toList()));
+        }
+        return ModelMappers.StudentToStudentDTO(this.studentRepository.save(temp));
+    }
 }

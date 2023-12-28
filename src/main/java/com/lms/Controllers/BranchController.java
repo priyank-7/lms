@@ -24,13 +24,13 @@ public class BranchController {
         return ResponseEntity.ok(branchService.addBranch(branch));
     }
 
-    @DeleteMapping("/deleteBranch/{branchId}")
+    @DeleteMapping("/{branchId}/deleteBranch")
     public ResponseEntity<Void> deleteBranch(@PathVariable String branchId) throws RuntimeException{
         branchService.deleteBranch(branchId);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/updateBranch/{branchId}")
+    @PutMapping("/{branchId}/updateBranch")
     public ResponseEntity<Branch> updateBranch(@PathVariable String branchId, @Valid @RequestBody Branch branch) throws Exception{
         return ResponseEntity.ok(branchService.updateBranch(branchId, branch));
     }

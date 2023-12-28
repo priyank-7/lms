@@ -103,4 +103,16 @@ public class FacultyServiceImpl implements FacultyService {
                         .collect(Collectors.toList()));
                 return ModelMappers.FacultyToFacultyDTO(this.facultyRepository.save(temp));
     }
+
+    @Override
+    public FacultyDTO removeCourseFromFaculty(String faculty_id, CourseDTO courseDTO) {
+        Faculty temp = this.facultyRepository.findById(faculty_id)
+                .orElseThrow(()-> new ResourceNotFoundException("Faculty not found"));
+        if(!temp.getCourseList().isEmpty()){
+            temp.setCourseList(temp.getCourseList().stream()
+                    .filter(course -> !course.getCourse_id().equals(courseDTO.getCourse_id()))
+                    .collect(Collectors.toList()));
+        }
+        return ModelMappers.FacultyToFacultyDTO(this.facultyRepository.save(temp));
+    }
 }

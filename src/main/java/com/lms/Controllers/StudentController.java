@@ -68,4 +68,9 @@ public class StudentController {
         return ResponseEntity.ok(this.studentService.addCourseToStudent(studentId, courses));
     }
 
+    @PutMapping("/{studentId}/removecourse")
+    public ResponseEntity<StudentDTO> removeCourseFromStudent(@PathVariable String studentId, @RequestBody CourseDTO courseDTO) throws BadCredentialsException {
+        return ResponseEntity.ok(this.studentService.removeCourseFromStudent(studentId, courseDTO));
+    }
+
 }

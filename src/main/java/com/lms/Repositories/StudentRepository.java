@@ -16,4 +16,5 @@ public interface StudentRepository extends JpaRepository<Student,String> {
     List<Student> findByBranch(Branch branch);
 
     List<Student> findByCourseListIsContaining(Course course);
+
 }

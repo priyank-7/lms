@@ -37,18 +37,18 @@ public class FacultyController {
         return ResponseEntity.ok(this.facultyService.addFaculty(facultyDTO));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<FacultyDTO> updateFaculty(@PathVariable String id, @RequestBody FacultyDTO facultyDTO){
         return ResponseEntity.ok(this.facultyService.updateFaculty(id, facultyDTO));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> deleteFaculty(@PathVariable String id){
         this.facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/addcourse/{faculty_id}")
+    @PostMapping("/{faculty_id}/addcourse")
     public ResponseEntity<FacultyDTO> addCourseToFaculty(@PathVariable String faculty_id, @RequestBody List<CourseDTO> courses) throws BadCredentialsException {
         return ResponseEntity.ok(this.facultyService.addCourseToFaculty(faculty_id, courses));
     }
@@ -66,5 +66,10 @@ public class FacultyController {
     @GetMapping("/getbycourse")
     public ResponseEntity<List<FacultyDTO>> getFacultyByCourse(@RequestBody CourseDTO courseDTO){
         return ResponseEntity.ok(this.facultyService.getFacultyByCourse(courseDTO));
+    }
+
+    @PutMapping("/{faculty_id}/removecourse")
+    public ResponseEntity<FacultyDTO> removeCourseFromFaculty(@PathVariable String faculty_id, @RequestBody CourseDTO courseDTO){
+        return ResponseEntity.ok(this.facultyService.removeCourseFromFaculty(faculty_id, courseDTO));
     }
 }
