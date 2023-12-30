@@ -21,10 +21,6 @@ public interface FacultyService {
 
     List<FacultyDTO> getFacultyByName(String name);
 
-    List<FacultyDTO> getFacultyByBranch(Branch branch);
-
-    List<FacultyDTO> getFacultyByCourse(CourseDTO courseDTO);
-
     FacultyDTO addCourseToFaculty(String faculty_id, List<CourseDTO> courses) throws BadCredentialsException;
 
     FacultyDTO removeCourseFromFaculty(String faculty_id, CourseDTO courseDTO);

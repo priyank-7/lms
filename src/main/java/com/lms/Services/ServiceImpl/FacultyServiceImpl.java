@@ -21,14 +21,9 @@ import java.util.stream.Collectors;
 public class FacultyServiceImpl implements FacultyService {
 
     private final FacultyRepository facultyRepository;
-    private final BranchRepository branchRepository;
-    private final CourseRepository courseRepository;
-
     @Autowired
     public FacultyServiceImpl(FacultyRepository facultyRepository, BranchRepository branchRepository, CourseRepository courseRepository) {
         this.facultyRepository = facultyRepository;
-        this.branchRepository = branchRepository;
-        this.courseRepository = courseRepository;
     }
     @Override
     public List<FacultyDTO> getAllFaculties() {
@@ -65,27 +60,6 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public List<FacultyDTO> getFacultyByName(String name) {
         return Optional.ofNullable(this.facultyRepository.findByName(name))
-                .orElse(Collections.emptyList())
-                .stream().map(faculty -> ModelMappers.FacultyToFacultyDTO(faculty))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<FacultyDTO> getFacultyByBranch(Branch branch) {
-        return Optional.ofNullable(this.facultyRepository.findFacultiesByBranch(
-                this.branchRepository.findById(branch.getBranch_id())
-                        .orElseThrow(()-> new ResourceNotFoundException("Branch not found"))))
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(faculty -> ModelMappers.FacultyToFacultyDTO(faculty))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<FacultyDTO> getFacultyByCourse(CourseDTO courseDTO) {
-        return Optional.ofNullable(this.facultyRepository.findFacultiesByCourseListIsContaining(
-                this.courseRepository.findById(courseDTO.getCourse_id())
-                        .orElseThrow(()-> new ResourceNotFoundException("Course not found"))))
                 .orElse(Collections.emptyList())
                 .stream().map(faculty -> ModelMappers.FacultyToFacultyDTO(faculty))
                 .collect(Collectors.toList());

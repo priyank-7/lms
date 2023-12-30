@@ -5,6 +5,7 @@ import com.lms.DTOs.FacultyDTO;
 import com.lms.Entities.Branch;
 import com.lms.Exception.BadCredentialsException;
 import com.lms.Services.Service.FacultyService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +34,12 @@ public class FacultyController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<FacultyDTO> addFaculty(@RequestBody FacultyDTO facultyDTO){
+    public ResponseEntity<FacultyDTO> addFaculty(@Valid @RequestBody FacultyDTO facultyDTO){
         return ResponseEntity.ok(this.facultyService.addFaculty(facultyDTO));
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<FacultyDTO> updateFaculty(@PathVariable String id, @RequestBody FacultyDTO facultyDTO){
+    public ResponseEntity<FacultyDTO> updateFaculty(@PathVariable String id, @Valid @RequestBody FacultyDTO facultyDTO){
         return ResponseEntity.ok(this.facultyService.updateFaculty(id, facultyDTO));
     }
 
@@ -49,7 +50,7 @@ public class FacultyController {
     }
 
     @PostMapping("/{faculty_id}/addcourse")
-    public ResponseEntity<FacultyDTO> addCourseToFaculty(@PathVariable String faculty_id, @RequestBody List<CourseDTO> courses) throws BadCredentialsException {
+    public ResponseEntity<FacultyDTO> addCourseToFaculty(@PathVariable String faculty_id, @Valid @RequestBody List<CourseDTO> courses) throws BadCredentialsException {
         return ResponseEntity.ok(this.facultyService.addCourseToFaculty(faculty_id, courses));
     }
 
@@ -58,18 +59,8 @@ public class FacultyController {
         return ResponseEntity.ok(this.facultyService.getFacultyByName(name));
     }
 
-    @GetMapping("/getbybranch")
-    public ResponseEntity<List<FacultyDTO>> getFacultyByBranch(@RequestBody Branch branch){
-        return ResponseEntity.ok(this.facultyService.getFacultyByBranch(branch));
-    }
-
-    @GetMapping("/getbycourse")
-    public ResponseEntity<List<FacultyDTO>> getFacultyByCourse(@RequestBody CourseDTO courseDTO){
-        return ResponseEntity.ok(this.facultyService.getFacultyByCourse(courseDTO));
-    }
-
     @PutMapping("/{faculty_id}/removecourse")
-    public ResponseEntity<FacultyDTO> removeCourseFromFaculty(@PathVariable String faculty_id, @RequestBody CourseDTO courseDTO){
+    public ResponseEntity<FacultyDTO> removeCourseFromFaculty(@PathVariable String faculty_id, @Valid @RequestBody CourseDTO courseDTO){
         return ResponseEntity.ok(this.facultyService.removeCourseFromFaculty(faculty_id, courseDTO));
     }
 }

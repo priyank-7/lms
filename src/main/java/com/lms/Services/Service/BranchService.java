@@ -1,5 +1,7 @@
 package com.lms.Services.Service;
 
+import com.lms.DTOs.FacultyDTO;
+import com.lms.DTOs.StudentDTO;
 import com.lms.Entities.Branch;
 import com.lms.Exception.BadCredentialsException;
 import com.lms.Exception.ResourceNotFoundException;
@@ -22,4 +24,8 @@ public interface BranchService {
         List<Branch> getAllBranches();
 
         Branch getBranchByName(String name);
+
+        List<StudentDTO> getAllStudentByBranch(Branch branch);
+
+        List<FacultyDTO> getAllFacultyByBranch(Branch branch);
 }

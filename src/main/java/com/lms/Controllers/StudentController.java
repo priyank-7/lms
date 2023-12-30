@@ -5,6 +5,7 @@ import com.lms.DTOs.StudentDTO;
 import com.lms.Entities.Branch;
 import com.lms.Exception.BadCredentialsException;
 import com.lms.Services.Service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class StudentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<StudentDTO> addStudent(@RequestBody StudentDTO studentDTO){
+    public ResponseEntity<StudentDTO> addStudent( @Valid @RequestBody StudentDTO studentDTO){
         return ResponseEntity.ok(this.studentService.addStudent(studentDTO));
     }
 
@@ -33,7 +34,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<StudentDTO> updateStudent(@PathVariable String id, @RequestBody StudentDTO studentDTO){
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable String id, @Valid @RequestBody StudentDTO studentDTO){
         return ResponseEntity.ok(this.studentService.updateStudent(id, studentDTO));
     }
 
@@ -53,23 +54,13 @@ public class StudentController {
         return ResponseEntity.ok(this.studentService.getStudentByName(name));
     }
 
-    @GetMapping("/getbybranch")
-    public ResponseEntity<List<StudentDTO>> getStudentByBranch(@RequestBody Branch branch){
-        return ResponseEntity.ok(this.studentService.getStudentByBranch(branch));
-    }
-
-    @GetMapping("/getbycourse")
-    public ResponseEntity<List<StudentDTO>> getStudentByCourse(@RequestBody CourseDTO course){
-        return ResponseEntity.ok(this.studentService.getStudentByCourse(course));
-    }
-
     @PostMapping("/{studentId}/addcourse")
-    public ResponseEntity<StudentDTO> addCourseToStudent(@PathVariable String studentId, @RequestBody List<CourseDTO> courses) throws BadCredentialsException {
+    public ResponseEntity<StudentDTO> addCourseToStudent(@PathVariable String studentId, @Valid @RequestBody List<CourseDTO> courses) throws BadCredentialsException {
         return ResponseEntity.ok(this.studentService.addCourseToStudent(studentId, courses));
     }
 
     @PutMapping("/{studentId}/removecourse")
-    public ResponseEntity<StudentDTO> removeCourseFromStudent(@PathVariable String studentId, @RequestBody CourseDTO courseDTO) throws BadCredentialsException {
+    public ResponseEntity<StudentDTO> removeCourseFromStudent(@PathVariable String studentId, @Valid @RequestBody CourseDTO courseDTO) throws BadCredentialsException {
         return ResponseEntity.ok(this.studentService.removeCourseFromStudent(studentId, courseDTO));
     }
 

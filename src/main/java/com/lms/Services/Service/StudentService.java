@@ -20,11 +20,7 @@ public interface StudentService {
 
     List<StudentDTO> getAllStudents();
 
-    List<StudentDTO> getStudentByBranch(Branch branch);
-
     List<StudentDTO> getStudentByName(String name);
-
-    List<StudentDTO> getStudentByCourse(CourseDTO courseDTO);
 
     StudentDTO addCourseToStudent(String studentId, List<CourseDTO> courses) throws BadCredentialsException;
 

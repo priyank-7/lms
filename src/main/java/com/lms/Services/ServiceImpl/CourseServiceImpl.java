@@ -2,11 +2,13 @@ package com.lms.Services.ServiceImpl;
 
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.FacultyDTO;
+import com.lms.DTOs.StudentDTO;
 import com.lms.Entities.Course;
-import com.lms.Entities.Faculty;
 import com.lms.Exception.ResourceNotFoundException;
 import com.lms.Helper.ModelMappers;
 import com.lms.Repositories.CourseRepository;
+import com.lms.Repositories.FacultyRepository;
+import com.lms.Repositories.StudentRepository;
 import com.lms.Services.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,14 @@ import java.util.stream.Collectors;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
+    private final StudentRepository studentRepository;
+    private final FacultyRepository facultyRepository;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository, StudentRepository studentRepository, FacultyRepository facultyRepository) {
         this.courseRepository = courseRepository;
+        this.studentRepository = studentRepository;
+        this.facultyRepository = facultyRepository;
     }
 
     @Override
@@ -99,6 +105,24 @@ public class CourseServiceImpl implements CourseService {
         return Optional.ofNullable(this.courseRepository.findByCreditsEquals(credits))
                 .orElse(Collections.emptyList())
                 .stream().map(course -> ModelMappers.CourseToCourseDTO(course))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudentDTO> getAllStudentsEnrolledInCourse(CourseDTO courseDTO) {
+        return Optional.ofNullable(this.studentRepository.findByCourseListIsContaining(ModelMappers.CourseDTOTOCourse(courseDTO)))
+                .orElse(Collections.emptyList())
+                .stream().map(student -> ModelMappers.StudentToStudentDTO(student))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FacultyDTO> getAllFacultiesTeachingCourse(CourseDTO courseDTO) {
+        return Optional.ofNullable(this.facultyRepository.findFacultiesByCourseListIsContaining(
+                        this.courseRepository.findById(courseDTO.getCourse_id())
+                                .orElseThrow(()-> new ResourceNotFoundException("Course not found"))))
+                .orElse(Collections.emptyList())
+                .stream().map(faculty -> ModelMappers.FacultyToFacultyDTO(faculty))
                 .collect(Collectors.toList());
     }
 }

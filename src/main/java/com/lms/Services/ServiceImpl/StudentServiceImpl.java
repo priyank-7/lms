@@ -24,14 +24,9 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
-    private final BranchRepository branchRepository;
-    private final CourseRepository courseRepository;
-
     @Autowired
     public StudentServiceImpl(StudentRepository studentRepository, BranchRepository branchRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
-        this.branchRepository = branchRepository;
-        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -66,25 +61,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDTO> getStudentByBranch(Branch branch) {
-        return Optional.ofNullable(this.studentRepository.findByBranch(this.branchRepository.findById(branch.getBranch_id())
-                .orElseThrow(()-> new ResourceNotFoundException("Branch Not Found"))))
-                .orElse(Collections.emptyList())
-                .stream().map(student -> ModelMappers.StudentToStudentDTO(student))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<StudentDTO> getStudentByName(String name) {
         return Optional.ofNullable(this.studentRepository.findByName(name))
-                .orElse(Collections.emptyList())
-                .stream().map(student -> ModelMappers.StudentToStudentDTO(student))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<StudentDTO> getStudentByCourse(CourseDTO courseDTO) {
-        return Optional.ofNullable(this.studentRepository.findByCourseListIsContaining(ModelMappers.CourseDTOTOCourse(courseDTO)))
                 .orElse(Collections.emptyList())
                 .stream().map(student -> ModelMappers.StudentToStudentDTO(student))
                 .collect(Collectors.toList());
