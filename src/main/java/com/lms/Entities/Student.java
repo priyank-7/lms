@@ -15,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 public class Student {
 
@@ -25,8 +26,6 @@ public class Student {
     @Email
     @Column(unique = true)
     private String email;
-    @Size(min = 8, max = 16)
-    private String password;
     @NotBlank
     private String phone;
     @NotBlank
@@ -38,18 +37,6 @@ public class Student {
     private Branch branch;
     private Date enrollment_date;
     private String image_url;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "student_roles",
-            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id")
-    )
-    private Set<Roles> role;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "student_course",
-            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id")
-    )
-    private List<Course> courseList;
+    @OneToMany(mappedBy = "student_course_pk.student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Student_Course> studentCourses;
 }

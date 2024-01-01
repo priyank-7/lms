@@ -18,18 +18,15 @@ public class Faculty {
     private String id;
     private String name;
     private String email;
-    private String password;
     private String phone;
     private String address;
+    private String gender;
     private Date dob;
-    private Date joining_date;
     @OneToOne
     private Branch branch;
-    private String gender;
+    private Date joining_date;
     private String qualification;
     private String image_url;
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Roles> role;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Course> courseList;
 }

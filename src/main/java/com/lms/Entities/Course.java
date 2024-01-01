@@ -5,12 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 public class Course {
 
@@ -25,6 +27,6 @@ public class Course {
     private Float credits;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "courseList")
     private List<Faculty> faculties;
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "courseList")
-    private List<Student> students;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "student_course_pk.course")
+    private List<Student_Course> students;
 }

@@ -1,7 +1,5 @@
 package com.lms.Controllers;
 
-import com.lms.DTOs.FacultyDTO;
-import com.lms.DTOs.StudentDTO;
 import com.lms.Entities.Branch;
 import com.lms.Services.Service.BranchService;
 import jakarta.validation.Valid;
@@ -43,18 +41,8 @@ public class BranchController {
         return ResponseEntity.ok(branchService.getBranch(branchId));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getall")
     public ResponseEntity<List<Branch>> getAllBranches(){
         return ResponseEntity.ok(branchService.getAllBranches());
-    }
-
-    @GetMapping("/getAllStudent")
-    public ResponseEntity<List<StudentDTO>> getAllStudentByBranch(@Valid @RequestBody Branch branch){
-        return ResponseEntity.ok(branchService.getAllStudentByBranch(branch));
-    }
-
-    @GetMapping("getAllFaculty")
-    public ResponseEntity<List<FacultyDTO>> getAllFacultyByBranch(@Valid @RequestBody Branch branch){
-        return ResponseEntity.ok(branchService.getAllFacultyByBranch(branch));
     }
 }

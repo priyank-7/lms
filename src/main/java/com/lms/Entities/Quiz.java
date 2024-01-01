@@ -2,6 +2,8 @@ package com.lms.Entities;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.util.Date;
@@ -15,8 +17,10 @@ import java.util.Date;
 @Entity
 public class Quiz {
 
-    @EmbeddedId
-    private PK_Number_Course quiz_id;
+    @Id
+    private String quiz_id;
+    @ManyToOne
+    private Course course;
     private Float total_marks;
     private Float total_time;
     private Date start_time;

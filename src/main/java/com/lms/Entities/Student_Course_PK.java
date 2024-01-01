@@ -2,17 +2,22 @@ package com.lms.Entities;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
+@Builder
 @Embeddable
 @Data
-public class PK_Number_Course_Student implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class Student_Course_PK implements Serializable {
 
-    private Integer X_number;
-    @ManyToOne
-    private Course course;
     @ManyToOne
     private Student student;
+    @ManyToOne
+    private Course course;
 }

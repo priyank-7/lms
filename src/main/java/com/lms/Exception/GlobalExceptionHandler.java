@@ -26,6 +26,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> IllegalArgumentExceptionHandler(IllegalArgumentException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<?> SQLIntegrityConstraintViolationExceptionHandler(SQLIntegrityConstraintViolationException e){
         return ResponseEntity.badRequest().body(e.getMessage());

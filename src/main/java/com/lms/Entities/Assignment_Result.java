@@ -1,7 +1,6 @@
 package com.lms.Entities;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -14,8 +13,12 @@ import java.util.Date;
 @Entity
 public class Assignment_Result {
 
-    @EmbeddedId
-    private PK_Number_Course_Student assignment_id;
+    @Id
+    private String assignment_id;
+    @ManyToOne
+    private Student student;
+    @ManyToOne
+    private Course course;
     private Float obtained_marks;
     private Boolean is_submitted;
     private Date submission_date;

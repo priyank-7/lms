@@ -1,11 +1,9 @@
 package com.lms.Helper;
 
+import com.lms.DTOs.AssignmentDTO;
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.FacultyDTO;
-import com.lms.DTOs.StudentDTO;
-import com.lms.Entities.Course;
-import com.lms.Entities.Faculty;
-import com.lms.Entities.Student;
+import com.lms.Entities.*;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -92,53 +90,5 @@ public class ModelMappers {
                 .email(faculty.getEmail())
                 .phone(faculty.getPhone())
                 .build();
-    }
-
-    public static StudentDTO StudentToStudentDTO(Student student){
-        return StudentDTO.builder()
-                .id(student.getStudent_id())
-                .name(student.getName())
-                .email(student.getEmail())
-                .phone(student.getPhone())
-                .address(student.getAddress())
-                .gender(student.getGender())
-                .dob(student.getDob())
-                .enrollment_date(student.getEnrollment_date())
-                .branch(student.getBranch())
-                .image_url(student.getImage_url())
-                .courseList(
-                        Optional.ofNullable(student.getCourseList())
-                                .orElse(Collections.emptyList())
-                                .stream().map(course -> CourseToCourseDTO(course))
-                                .collect(Collectors.toList()))
-                .build();
-    }
-
-    public static Student StudentDToToStudent(StudentDTO studentDTO){
-        return Student.builder()
-                .student_id(studentDTO.getId())
-                .name(studentDTO.getName())
-                .email(studentDTO.getEmail())
-                .phone(studentDTO.getPhone())
-                .address(studentDTO.getAddress())
-                .dob(studentDTO.getDob())
-                .gender(studentDTO.getGender())
-                .branch(studentDTO.getBranch())
-                .enrollment_date(studentDTO.getEnrollment_date())
-                .build();
-    }
-
-    public static Student StudentDToToStudent(Student student, StudentDTO studentDTO){
-        student.setStudent_id(studentDTO.getId());
-        student.setName(studentDTO.getName());
-        student.setEmail(studentDTO.getEmail());
-        student.setPhone(studentDTO.getPhone());
-        student.setAddress(studentDTO.getAddress());
-        student.setDob(studentDTO.getDob());
-        student.setGender(studentDTO.getGender());
-        student.setBranch(studentDTO.getBranch());
-        student.setEnrollment_date(studentDTO.getEnrollment_date());
-        student.setImage_url(studentDTO.getImage_url());
-        return student;
     }
 }

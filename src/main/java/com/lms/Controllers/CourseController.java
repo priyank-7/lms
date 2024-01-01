@@ -1,8 +1,6 @@
 package com.lms.Controllers;
 
 import com.lms.DTOs.CourseDTO;
-import com.lms.DTOs.FacultyDTO;
-import com.lms.DTOs.StudentDTO;
 import com.lms.Services.Service.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,18 +51,8 @@ public class CourseController {
         return ResponseEntity.ok(this.courseService.getCourseByCreditsEquals(Float.valueOf(course_credits)));
     }
 
-    @GetMapping("/getAllCourses")
+    @GetMapping("/getall")
     public ResponseEntity<List<CourseDTO>> getAllCourses() {
         return ResponseEntity.ok(this.courseService.getAllCourses());
-    }
-
-    @GetMapping("/allStudenst")
-    public ResponseEntity<List<StudentDTO>> getAllStudentsEnrolledInCourse(@Valid @RequestBody CourseDTO courseDTO) {
-        return ResponseEntity.ok(this.courseService.getAllStudentsEnrolledInCourse(courseDTO));
-    }
-
-    @GetMapping("/allFaculties")
-    public ResponseEntity<List<FacultyDTO>> getAllFacultiesTeachingCourse(@Valid @RequestBody CourseDTO courseDTO) {
-        return ResponseEntity.ok(this.courseService.getAllFacultiesTeachingCourse(courseDTO));
     }
 }

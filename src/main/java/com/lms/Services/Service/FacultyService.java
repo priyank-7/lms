@@ -8,7 +8,6 @@ import com.lms.Exception.BadCredentialsException;
 import java.util.List;
 
 public interface FacultyService {
-
     List<FacultyDTO> getAllFaculties();
 
     FacultyDTO getFaculty(String id);
@@ -21,8 +20,10 @@ public interface FacultyService {
 
     List<FacultyDTO> getFacultyByName(String name);
 
-    FacultyDTO addCourseToFaculty(String faculty_id, List<CourseDTO> courses) throws BadCredentialsException;
+    List<FacultyDTO> getFacultyByBranch(Branch branch);
 
-    FacultyDTO removeCourseFromFaculty(String faculty_id, CourseDTO courseDTO);
+    List<FacultyDTO> getFacultyByCourse(CourseDTO courseDTO);
+
+    FacultyDTO addCourseToFaculty(String faculty_id, List<CourseDTO> courses) throws BadCredentialsException;
 
 }

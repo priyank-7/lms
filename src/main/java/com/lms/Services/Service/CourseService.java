@@ -1,13 +1,9 @@
 package com.lms.Services.Service;
 
 import com.lms.DTOs.CourseDTO;
-import com.lms.DTOs.FacultyDTO;
-import com.lms.DTOs.StudentDTO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface CourseService {
 
     CourseDTO addCourse(CourseDTO courseDTO);
@@ -27,8 +23,4 @@ public interface CourseService {
     List<CourseDTO> getCourseByCreditsIsGreaterThanEqual(Float credits);
 
     List<CourseDTO> getCourseByCreditsEquals(Float credits);
-
-    List<StudentDTO> getAllStudentsEnrolledInCourse(CourseDTO courseDTO);
-
-    List<FacultyDTO> getAllFacultiesTeachingCourse(CourseDTO courseDTO);
 }

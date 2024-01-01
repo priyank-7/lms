@@ -1,7 +1,6 @@
 package com.lms.Repositories;
 
 import com.lms.Entities.Course;
-import com.lms.Entities.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course,String> {
-
+public interface CourseRepository extends JpaRepository<Course, String>{
     Optional<Course> findByName(String name);
 
     List<Course> findByCreditsIsLessThanEqual(Float credits);
@@ -18,5 +16,4 @@ public interface CourseRepository extends JpaRepository<Course,String> {
     List<Course> findByCreditsIsGreaterThanEqual(Float credits);
 
     List<Course> findByCreditsEquals(Float credits);
-
 }
