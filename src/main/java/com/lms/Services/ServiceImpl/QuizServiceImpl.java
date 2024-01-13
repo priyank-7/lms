@@ -4,7 +4,7 @@ import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.QuizDTO;
 import com.lms.Entities.Quiz;
 import com.lms.Exception.ResourceNotFoundException;
-import com.lms.Helper.ModelMapper;
+import com.lms.Helper.ModelMappers.CourseMapper;
 import com.lms.Helper.ModelMappers.QuizMapper;
 import com.lms.Repositories.QuizRepository;
 import com.lms.Services.Service.QuizService;
@@ -32,7 +32,7 @@ public class QuizServiceImpl implements QuizService {
     public List<QuizDTO> getAllQuizzes() {
         return Optional.of(this.quizRepository.findAll())
                 .orElse(Collections.emptyList())
-                .stream().map(quiz -> QuizMapper.QuizToQuizDTO(quiz))
+                .stream().map(QuizMapper::QuizToQuizDTO)
                 .collect(Collectors.toList());
     }
 
@@ -63,9 +63,9 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<QuizDTO> getQuizByCourse(CourseDTO course) {
-        return Optional.of(this.quizRepository.findByCourse(ModelMapper.CourseDTOTOCourse(course)))
+        return Optional.of(this.quizRepository.findByCourse(CourseMapper.CourseDTOTOCourse(course)))
                 .orElse(Collections.emptyList())
-                .stream().map(quiz -> QuizMapper.QuizToQuizDTO(quiz))
+                .stream().map(QuizMapper::QuizToQuizDTO)
                 .collect(Collectors.toList());
     }
 }

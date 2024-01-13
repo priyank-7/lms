@@ -6,7 +6,8 @@ import com.lms.Entities.Branch;
 import com.lms.Entities.Faculty;
 import com.lms.Exception.BadCredentialsException;
 import com.lms.Exception.ResourceNotFoundException;
-import com.lms.Helper.ModelMapper;
+import com.lms.Helper.ModelMappers.CourseMapper;
+import com.lms.Helper.ModelMappers.FacultyMapper;
 import com.lms.Repositories.BranchRepository;
 import com.lms.Repositories.CourseRepository;
 import com.lms.Repositories.FacultyRepository;
@@ -37,27 +38,27 @@ public class FacultyServiceImpl implements FacultyService {
     public List<FacultyDTO> getAllFaculties() {
         return this.facultyRepository.findAll()
                 .stream()
-                .map(faculty -> ModelMapper.FacultyToFacultyDTO(faculty)).collect(Collectors.toList());
+                .map(FacultyMapper::FacultyToFacultyDTO).collect(Collectors.toList());
     }
 
     @Override
     public FacultyDTO getFaculty(String id) {
-        return ModelMapper.FacultyToFacultyDTO(this.facultyRepository.findById(id)
+        return FacultyMapper.FacultyToFacultyDTO(this.facultyRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Faculty not found")));
     }
 
     @Override
     public FacultyDTO addFaculty(FacultyDTO facultyDTO) {
         facultyDTO.setFaculty_id(UUID.randomUUID().toString());
-        return ModelMapper.FacultyToFacultyDTO(this.facultyRepository.save(ModelMapper.FacultyDTOTOFaculty(facultyDTO)));
+        return FacultyMapper.FacultyToFacultyDTO(this.facultyRepository.save(FacultyMapper.FacultyDTOTOFaculty(facultyDTO)));
     }
 
     @Override
     public FacultyDTO updateFaculty(String id, FacultyDTO facultyDTO) {
         facultyDTO.setFaculty_id(id);
-        return ModelMapper.FacultyToFacultyDTO(
+        return FacultyMapper.FacultyToFacultyDTO(
                 this.facultyRepository.save(
-                        ModelMapper.FacultyDTOTOFaculty(
+                        FacultyMapper.FacultyDTOTOFaculty(
                                 this.facultyRepository.findById(id)
                                         .orElseThrow(()-> new ResourceNotFoundException("Faculty not found")),facultyDTO)));
     }
@@ -72,7 +73,7 @@ public class FacultyServiceImpl implements FacultyService {
     public List<FacultyDTO> getFacultyByName(String name) {
         return Optional.ofNullable(this.facultyRepository.findByName(name))
                 .orElse(Collections.emptyList())
-                .stream().map(faculty -> ModelMapper.FacultyToFacultyDTO(faculty))
+                .stream().map(FacultyMapper::FacultyToFacultyDTO)
                 .collect(Collectors.toList());
     }
 
@@ -83,7 +84,7 @@ public class FacultyServiceImpl implements FacultyService {
                                 .orElseThrow(()-> new ResourceNotFoundException("Branch not found"))))
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(faculty -> ModelMapper.FacultyToFacultyDTO(faculty))
+                .map(FacultyMapper::FacultyToFacultyDTO)
                 .collect(Collectors.toList());
     }
 
@@ -93,7 +94,7 @@ public class FacultyServiceImpl implements FacultyService {
                         this.courseRepository.findById(courseDTO.getCourse_id())
                                 .orElseThrow(()-> new ResourceNotFoundException("Course not found"))))
                 .orElse(Collections.emptyList())
-                .stream().map(faculty -> ModelMapper.FacultyToFacultyDTO(faculty))
+                .stream().map(FacultyMapper::FacultyToFacultyDTO)
                 .collect(Collectors.toList());
     }
 
@@ -105,8 +106,8 @@ public class FacultyServiceImpl implements FacultyService {
         Faculty temp = this.facultyRepository.findById(faculty_id)
                 .orElseThrow(()-> new ResourceNotFoundException("Faculty not found"));
         temp.setCourseList(courses.stream()
-                .map(courseDTO -> ModelMapper.CourseDTOTOCourse(courseDTO))
+                .map(CourseMapper::CourseDTOTOCourse)
                 .collect(Collectors.toList()));
-        return ModelMapper.FacultyToFacultyDTO(this.facultyRepository.save(temp));
+        return FacultyMapper.FacultyToFacultyDTO(this.facultyRepository.save(temp));
     }
 }

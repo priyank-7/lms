@@ -5,7 +5,7 @@ import com.lms.DTOs.CourseDTO;
 import com.lms.Entities.Assignment;
 import com.lms.Entities.Course;
 import com.lms.Exception.ResourceNotFoundException;
-import com.lms.Helper.ModelMapper;
+import com.lms.Helper.ModelMappers.AssignmentMapper;
 import com.lms.Repositories.AssignmentRepository;
 import com.lms.Repositories.CourseRepository;
 import com.lms.Services.Service.AssignmentService;
@@ -32,21 +32,21 @@ public class AssignmentServiceImpl implements AssignmentService {
     public AssignmentDTO addAssignment(AssignmentDTO assignmentDTO) {
         assignmentDTO.setAssignment_id(UUID.randomUUID().toString());
         assignmentDTO.setAssign_date(new Date());
-        return ModelMapper.AssignmentToAssignmentDTO(this.assignmentRepository.save(
-                ModelMapper.AssignmentDTOTOAssignment(assignmentDTO)));
+        return AssignmentMapper.AssignmentToAssignmentDTO(this.assignmentRepository.save(
+                AssignmentMapper.AssignmentDTOTOAssignment(assignmentDTO)));
     }
 
     @Override
     public AssignmentDTO updateAssignment(String assignment_id, AssignmentDTO assignmentDTO) {
         Assignment temp_assignment = this.assignmentRepository.findById(assignment_id)
                 .orElseThrow(()-> new ResourceNotFoundException("Assignment not found"));
-        return ModelMapper.AssignmentToAssignmentDTO(this.assignmentRepository
-                .save(ModelMapper.AssignmentDTOTOAssignment(temp_assignment, assignmentDTO)));
+        return AssignmentMapper.AssignmentToAssignmentDTO(this.assignmentRepository
+                .save(AssignmentMapper.AssignmentDTOTOAssignment(temp_assignment, assignmentDTO)));
     }
 
     @Override
     public AssignmentDTO getAssignmentById(String id) {
-        return ModelMapper.AssignmentToAssignmentDTO(this.assignmentRepository.findById(id)
+        return AssignmentMapper.AssignmentToAssignmentDTO(this.assignmentRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Assignment not found")));
     }
 
@@ -63,7 +63,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         return Optional.of(this.assignmentRepository.findAll())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(ModelMapper::AssignmentToAssignmentDTO)
+                .map(AssignmentMapper::AssignmentToAssignmentDTO)
                 .collect(Collectors.toList());
     }
 
@@ -72,7 +72,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         return Optional.of(this.assignmentRepository.findByCourse(course))
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(ModelMapper::AssignmentToAssignmentDTO)
+                .map(AssignmentMapper::AssignmentToAssignmentDTO)
                 .collect(Collectors.toList());
     }
 
@@ -88,7 +88,7 @@ public class AssignmentServiceImpl implements AssignmentService {
                         .orElseThrow(() -> new ResourceNotFoundException("Course Not Found"))))
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(ModelMapper::AssignmentToAssignmentDTO)
+                .map(AssignmentMapper::AssignmentToAssignmentDTO)
                 .collect(Collectors.toList());
     }
 }

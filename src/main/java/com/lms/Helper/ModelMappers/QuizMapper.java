@@ -2,7 +2,6 @@ package com.lms.Helper.ModelMappers;
 
 import com.lms.DTOs.QuizDTO;
 import com.lms.Entities.Quiz;
-import com.lms.Helper.ModelMapper;
 
 public class QuizMapper {
 
@@ -31,7 +30,7 @@ public class QuizMapper {
         quiz.setTotal_time(quizDTO.getTotal_time());
         quiz.setStart_time(quizDTO.getStart_time());
         quiz.setIs_active(quizDTO.getIs_active());
-        quiz.setCourse(ModelMapper.CourseDTOTOCourse(quizDTO.getCourse()));
+        quiz.setCourse(CourseMapper.CourseDTOTOCourse(quizDTO.getCourse()));
         return quiz;
     }
 }
