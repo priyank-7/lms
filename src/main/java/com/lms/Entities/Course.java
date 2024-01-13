@@ -1,5 +1,6 @@
 package com.lms.Entities;
 
+import com.lms.DTOs.CourseDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -25,8 +26,6 @@ public class Course {
     private String name;
     private String description;
     private Float credits;
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "courseList")
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "courseList")
     private List<Faculty> faculties;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "student_course_pk.course")
-    private List<Student_Course> students;
 }

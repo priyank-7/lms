@@ -12,16 +12,19 @@ import java.util.Date;
 @Builder
 @Getter
 @Setter
-public class AssignmentDTO {
+public class QuizDTO {
 
-    private String assignment_id;
+    private String quiz_id;
     @NotNull(message = "Total marks cannot be null")
     @DecimalMin(value = "0.0", inclusive = true, message = "Total marks must be greater than of equal to 0")
     private Float total_marks;
-    private Date assign_date;
-    @NotNull(message = "Submission date cannot be null")
-    @Future(message = "Submission date must be in the future")
-    private Date submission_date;
+    @NotNull(message = "time duration cannot be null")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Total time must be greater than of equal to 0")
+    private Float total_time;
+    @NotNull(message = "Start time cannot be null")
+    @Future(message = "Start time must be in the future")
+    private Date start_time;
+    private Boolean is_active;
     @NotNull(message = "Course cannot be null")
     private CourseDTO course;
 }

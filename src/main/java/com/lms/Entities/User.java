@@ -3,24 +3,27 @@ package com.lms.Entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
     @Id
+    @Column(name = "user_id")
     private String user_id;
     @Column(unique = true)
+    @NotBlank(message = "Email cannot be blank")
     private String email;
     @Size(min = 8, max = 16)
+    @NotBlank(message = "Password cannot be blank")
     private String password;
-    @OneToMany(mappedBy = "user_role_pk.user", cascade = CascadeType.ALL)
-    private Set<User_Role> roles;
+    @OneToMany
+    private Set<Role> roles;
 }

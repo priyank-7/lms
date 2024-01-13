@@ -1,6 +1,7 @@
 package com.lms.Entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Past;
 import lombok.*;
 
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Faculty {
     private String phone;
     private String address;
     private String gender;
+    @Past(message = "Date of birth should be in past")
     private Date dob;
     @OneToOne
     private Branch branch;

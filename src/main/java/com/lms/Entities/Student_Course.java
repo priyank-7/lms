@@ -1,28 +1,22 @@
 package com.lms.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
 
-@Entity
+
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@AssociationOverrides({
-        @AssociationOverride(name="student_course_pk.student",
-                joinColumns = @JoinColumn(name="student_id")),
-        @AssociationOverride(name="student_course_pk.course",
-                joinColumns = @JoinColumn(name="course_id"))
-})
+@Data
+@Entity
 public class Student_Course {
 
     @EmbeddedId
     private Student_Course_PK student_course_pk;
-    @Column(nullable = false)
-    private Date enroll_date;
-
 }

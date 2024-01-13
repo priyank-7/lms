@@ -21,6 +21,4 @@ public class Role {
     private String role_id;
     @NotBlank
     private String name;
-    @OneToMany(mappedBy = "user_role_pk.role", cascade = CascadeType.ALL)
-    private Set<User_Role> user;
 }

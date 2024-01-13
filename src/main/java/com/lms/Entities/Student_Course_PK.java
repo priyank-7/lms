@@ -1,23 +1,25 @@
 package com.lms.Entities;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
 @Builder
-@Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Embeddable
 public class Student_Course_PK implements Serializable {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
+    private Date enrollment_date;
 }

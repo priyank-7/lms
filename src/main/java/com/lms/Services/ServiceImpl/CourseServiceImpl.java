@@ -3,7 +3,7 @@ package com.lms.Services.ServiceImpl;
 import com.lms.DTOs.CourseDTO;
 import com.lms.Entities.Course;
 import com.lms.Exception.ResourceNotFoundException;
-import com.lms.Helper.ModelMappers;
+import com.lms.Helper.ModelMapper;
 import com.lms.Repositories.CourseRepository;
 import com.lms.Services.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public CourseDTO addCourse(CourseDTO courseDTO) {
-        return ModelMappers.CourseToCourseDTO(this.courseRepository.
+        return ModelMapper.CourseToCourseDTO(this.courseRepository.
                 save(Course.builder()
                         .course_id(UUID.randomUUID().toString())
                         .course_code(courseDTO.getCourse_code())
@@ -46,7 +46,7 @@ public class CourseServiceImpl implements CourseService{
     public CourseDTO updateCourse(String id, CourseDTO courseDTO) {
         this.courseRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Course not found with Provided ID: " + id));
-        return ModelMappers.CourseToCourseDTO(this.courseRepository.save(Course.builder()
+        return ModelMapper.CourseToCourseDTO(this.courseRepository.save(Course.builder()
                 .course_id(id)
                 .course_code(courseDTO.getCourse_code())
                 .name(courseDTO.getName())
@@ -57,7 +57,7 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public CourseDTO getCourse(String id) {
-        return ModelMappers.CourseToCourseDTO(this.courseRepository.findById(id)
+        return ModelMapper.CourseToCourseDTO(this.courseRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Course not found with Provided ID: " + id)));
     }
 
@@ -66,13 +66,13 @@ public class CourseServiceImpl implements CourseService{
         return Optional.ofNullable(this.courseRepository.findAll())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(course -> ModelMappers.CourseToCourseDTO(course))
+                .map(course -> ModelMapper.CourseToCourseDTO(course))
                 .collect(Collectors.toList());
     }
 
     @Override
     public CourseDTO getCourseByName(String name) {
-        return ModelMappers.CourseToCourseDTO(this.courseRepository.findByName(name)
+        return ModelMapper.CourseToCourseDTO(this.courseRepository.findByName(name)
                 .orElseThrow(()-> new ResourceNotFoundException("Course not found with Provided Name: " + name)));
     }
 
@@ -80,7 +80,7 @@ public class CourseServiceImpl implements CourseService{
     public List<CourseDTO> getCourseByCreditsIsLessThanEqual(Float credits) {
         return Optional.ofNullable(this.courseRepository.findByCreditsIsLessThanEqual(credits))
                 .orElse(Collections.emptyList())
-                .stream().map(course -> ModelMappers.CourseToCourseDTO(course))
+                .stream().map(course -> ModelMapper.CourseToCourseDTO(course))
                 .collect(Collectors.toList());
     }
 
@@ -88,14 +88,14 @@ public class CourseServiceImpl implements CourseService{
     public List<CourseDTO> getCourseByCreditsIsGreaterThanEqual(Float credits) {
         return Optional.ofNullable(this.courseRepository.findByCreditsIsGreaterThanEqual(credits))
                 .orElse(Collections.emptyList())
-                .stream().map(course -> ModelMappers.CourseToCourseDTO(course)).collect(Collectors.toList());
+                .stream().map(course -> ModelMapper.CourseToCourseDTO(course)).collect(Collectors.toList());
     }
 
     @Override
     public List<CourseDTO> getCourseByCreditsEquals(Float credits) {
         return Optional.ofNullable(this.courseRepository.findByCreditsEquals(credits))
                 .orElse(Collections.emptyList())
-                .stream().map(course -> ModelMappers.CourseToCourseDTO(course))
+                .stream().map(course -> ModelMapper.CourseToCourseDTO(course))
                 .collect(Collectors.toList());
     }
 }

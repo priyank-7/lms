@@ -1,5 +1,6 @@
 package com.lms.Entities;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,15 +9,14 @@ import lombok.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
+@ToString
 public class Student {
 
     @Id
@@ -27,6 +27,7 @@ public class Student {
     @Column(unique = true)
     private String email;
     @NotBlank
+    @Size(min = 10,max = 10,message = "Phone number should be 10 digits")
     private String phone;
     @NotBlank
     private String address;
@@ -37,6 +38,6 @@ public class Student {
     private Branch branch;
     private Date enrollment_date;
     private String image_url;
-    @OneToMany(mappedBy = "student_course_pk.student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Student_Course> studentCourses;
 }
