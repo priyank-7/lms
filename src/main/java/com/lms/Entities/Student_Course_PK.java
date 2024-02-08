@@ -21,5 +21,4 @@ public class Student_Course_PK implements Serializable {
     private Student student;
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
-    private Date enrollment_date;
 }

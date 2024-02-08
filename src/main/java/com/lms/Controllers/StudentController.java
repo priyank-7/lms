@@ -45,7 +45,7 @@ public class StudentController {
     }
 
     @PostMapping("/{student_id}/addcourse")
-    public ResponseEntity<Student> addCourseToStudent(@PathVariable String student_id, @RequestBody CourseDTO courseDTO){
+    public ResponseEntity<StudentDTO> addCourseToStudent(@PathVariable String student_id, @RequestBody CourseDTO courseDTO){
         return ResponseEntity.ok(this.studentService.addCourseToStudent(student_id, courseDTO));
     }
 }

@@ -32,6 +32,7 @@ public class StudentServiceImpl implements StudentService {
         this.roleRepository = roleRepository;
     }
 
+
     @Override
     public StudentDTO addStudent(StudentDTO studentDTO){
         String Id = UUID.randomUUID().toString();
@@ -74,7 +75,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student addCourseToStudent(String student_id, CourseDTO courseDTO) {
+    public StudentDTO addCourseToStudent(String student_id, CourseDTO courseDTO) {
         Student tempStudent = this.studentRepository.findById(student_id)
                 .orElseThrow(()-> new ResourceNotFoundException("Student not found"));
         Course tempCourse = this.courseRepository.findById(courseDTO.getCourse_id())
@@ -82,7 +83,7 @@ public class StudentServiceImpl implements StudentService {
         tempStudent.setStudentCourses(Optional.ofNullable(tempStudent.getStudentCourses())
                 .orElse(new ArrayList<>()));
         tempStudent.getStudentCourses().add(StudentMapper.Student_Course_Creation(tempStudent, tempCourse));
-        return this.studentRepository.findStudentByStudentCoursesContaining(StudentMapper.Student_Course_Creation(tempStudent,tempCourse));
+        return StudentMapper.StudentToStudentDTO(this.studentRepository.save(tempStudent));
     }
 
     @Override

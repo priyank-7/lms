@@ -38,6 +38,7 @@ public class Student {
     private Branch branch;
     private Date enrollment_date;
     private String image_url;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "student_course_pk.student")
+    @JsonIgnore(value = false)
     private List<Student_Course> studentCourses;
 }

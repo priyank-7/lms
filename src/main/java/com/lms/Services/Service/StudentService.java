@@ -20,7 +20,7 @@ public interface StudentService {
 
     void deleteStudent(String id, StudentDTO studentDTO);
 
-    Student addCourseToStudent(String student_id, CourseDTO courseDTO);
+    StudentDTO addCourseToStudent(String student_id, CourseDTO courseDTO);
 
     StudentDTO removeCourseFromStudent(String student_id, CourseDTO courseDTO);
 

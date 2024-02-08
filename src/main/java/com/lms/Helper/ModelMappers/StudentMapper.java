@@ -64,8 +64,8 @@ public class StudentMapper {
                 .student_course_pk(Student_Course_PK.builder()
                         .student(student)
                         .course(course)
-                        .enrollment_date(new Date())
                         .build())
+                .enroll_date(new Date())
                 .build();
     }
 

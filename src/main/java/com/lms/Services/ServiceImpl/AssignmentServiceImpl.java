@@ -60,11 +60,13 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<AssignmentDTO> getAllAssignments() {
+        System.out.println("AssignmentServiceImpl.getAllAssignments");
         return Optional.of(this.assignmentRepository.findAll())
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(AssignmentMapper::AssignmentToAssignmentDTO)
                 .collect(Collectors.toList());
+
     }
 
     @Override
@@ -78,11 +80,6 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<AssignmentDTO> getAssignmentsByCourseAssignDateGreaterThen(CourseDTO course , String courseId) {
-        Date date = new Date();
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR , date.getYear());
-        c.set(Calendar.MONTH , 1);
-        c.set(Calendar.DAY_OF_MONTH , 1);
         return Optional.of(this.assignmentRepository.findByCourse(
                 this.courseRepository.findById(courseId)
                         .orElseThrow(() -> new ResourceNotFoundException("Course Not Found"))))

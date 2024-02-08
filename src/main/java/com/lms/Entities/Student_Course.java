@@ -19,4 +19,5 @@ public class Student_Course {
 
     @EmbeddedId
     private Student_Course_PK student_course_pk;
+    private Date enroll_date;
 }

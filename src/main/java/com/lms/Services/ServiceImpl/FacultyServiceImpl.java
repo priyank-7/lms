@@ -15,10 +15,7 @@ import com.lms.Services.Service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +24,10 @@ public class FacultyServiceImpl implements FacultyService {
     private final FacultyRepository facultyRepository;
     private final BranchRepository branchRepository;
     private final CourseRepository courseRepository;
+
+    HashSet<Integer> set = new HashSet<>();
+
+
 
     @Autowired
     public FacultyServiceImpl(FacultyRepository facultyRepository, BranchRepository branchRepository, CourseRepository courseRepository) {
