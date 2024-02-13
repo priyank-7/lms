@@ -48,9 +48,9 @@ public class AssignmentController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/{courseId}/getByCourse")
-//    public ResponseEntity<List<AssignmentDTO>> getAssignmentsByCourse(@Valid@RequestBody CourseDTO Course, @PathVariable String courseId){
-//        return ResponseEntity.ok(this.assignmentService.getAssignmentsByCourseAssignDateGreaterThen(Course, courseId));
-//    }
+    @GetMapping("/getByCourse")
+    public ResponseEntity<List<AssignmentDTO>> getAssignmentsByCourse(@Valid @RequestBody CourseDTO Course, @PathVariable String courseId){
+        return ResponseEntity.ok(this.assignmentService.getAssignmentsByCourse(Course));
+    }
 
 }

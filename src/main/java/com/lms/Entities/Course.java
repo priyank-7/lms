@@ -28,4 +28,6 @@ public class Course {
     private Float credits;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "courseList")
     private List<Faculty> faculties;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "course")
+    private List<Assignment> assignmentList;
 }

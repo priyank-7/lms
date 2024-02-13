@@ -11,6 +11,7 @@ public class AssignmentMapper {
                 .assign_date(assignment.getAssign_date())
                 .submission_date(assignment.getSubmission_date())
                 .total_marks(assignment.getTotal_marks())
+                .course(CourseMapper.CourseToCourseDTO(assignment.getCourse()))
                 .build();
     }
 

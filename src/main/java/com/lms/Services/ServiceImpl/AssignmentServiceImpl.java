@@ -3,7 +3,6 @@ package com.lms.Services.ServiceImpl;
 import com.lms.DTOs.AssignmentDTO;
 import com.lms.DTOs.CourseDTO;
 import com.lms.Entities.Assignment;
-import com.lms.Entities.Course;
 import com.lms.Exception.ResourceNotFoundException;
 import com.lms.Helper.ModelMappers.AssignmentMapper;
 import com.lms.Repositories.AssignmentRepository;
@@ -70,8 +69,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public List<AssignmentDTO> getAssignmentsByCourse(Course course) {
-        return Optional.of(this.assignmentRepository.findByCourse(course))
+    public List<AssignmentDTO> getAssignmentsByCourse(CourseDTO course) {
+        return Optional.of(this.assignmentRepository.findAssignmentByCourse(
+                        this.courseRepository.findById(course.getCourse_id())
+                                .orElseThrow(() -> new ResourceNotFoundException("Course Not Found")))
+                )
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(AssignmentMapper::AssignmentToAssignmentDTO)
@@ -80,9 +82,10 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<AssignmentDTO> getAssignmentsByCourseAssignDateGreaterThen(CourseDTO course , String courseId) {
-        return Optional.of(this.assignmentRepository.findByCourse(
+        return Optional.of(this.assignmentRepository.findAssignmentByCourse(
                 this.courseRepository.findById(courseId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Course Not Found"))))
+                        .orElseThrow(() -> new ResourceNotFoundException("Course Not Found")))
+                )
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(AssignmentMapper::AssignmentToAssignmentDTO)

@@ -19,7 +19,7 @@ public interface AssignmentService {
 
     List<AssignmentDTO> getAllAssignments();
 
-    List<AssignmentDTO> getAssignmentsByCourse(Course course);
+    List<AssignmentDTO> getAssignmentsByCourse(CourseDTO course);
 
     List<AssignmentDTO> getAssignmentsByCourseAssignDateGreaterThen(CourseDTO course, String courseId);
 }
