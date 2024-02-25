@@ -18,13 +18,14 @@ import java.util.Date;
 public class Quiz {
 
     @Id
-    private String quiz_id;
+    private String quizId;
     @ManyToOne
     private Course course;
-    private Float total_marks;
-    private Float total_time;
-    private Date start_time;
-    private Boolean is_active;
+    private Float totalMarks;
+    private Float totalTime;
+    private Date startTime;
+    private Date PostedOn;
+    private Boolean isActive;
 
 
 }

@@ -3,6 +3,7 @@ package com.lms;
 import com.lms.Entities.Assignment;
 import com.lms.Entities.Course;
 import com.lms.Entities.User;
+import com.lms.Helper.DateTime.DateTimeUtilities;
 import com.lms.Repositories.AssignmentRepository;
 import com.lms.Repositories.CourseRepository;
 import com.lms.Repositories.StudentRepository;
@@ -47,16 +48,18 @@ class LmsApplicationTests {
                 .description("This course is about Data Structures")
                 .build();
 
-        List<Assignment> fvbfjh = this.assignmentRepository.findByCourse(c);
+        //List<Assignment> fvbfjh = this.assignmentRepository.findByCourse(c);
 
-        for (Assignment assignment : fvbfjh) {
-            System.out.println(assignment.toString());
-        }
+//        for (Assignment assignment : fvbfjh) {
+//            System.out.println(assignment.toString());
+//        }
 
     }
 
     @Test
     void setAssignmentRepository(){
+
+        System.out.println(DateTimeUtilities.firstDayOfYear());
 
     }
 

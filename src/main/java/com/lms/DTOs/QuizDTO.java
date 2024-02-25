@@ -3,6 +3,7 @@ package com.lms.DTOs;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class QuizDTO {
     @NotNull(message = "Start time cannot be null")
     @Future(message = "Start time must be in the future")
     private Date start_time;
+    private Date Posted_on;
     private Boolean is_active;
     @NotNull(message = "Course cannot be null")
     private CourseDTO course;

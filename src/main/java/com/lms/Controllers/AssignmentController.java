@@ -49,7 +49,7 @@ public class AssignmentController {
     }
 
     @GetMapping("/getByCourse")
-    public ResponseEntity<List<AssignmentDTO>> getAssignmentsByCourse(@Valid @RequestBody CourseDTO Course, @PathVariable String courseId){
+    public ResponseEntity<List<AssignmentDTO>> getAssignmentsByCourse(@Valid @RequestBody CourseDTO Course){
         return ResponseEntity.ok(this.assignmentService.getAssignmentsByCourse(Course));
     }
 

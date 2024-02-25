@@ -3,6 +3,7 @@ package com.lms.Controllers;
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.QuizDTO;
 import com.lms.Services.Service.QuizService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,18 +27,17 @@ public class QuizController {
     }
 
     @GetMapping("/{courseId}/getAll")
-    public ResponseEntity<List<QuizDTO>> getAllQuizByCourse(@PathVariable String courseId, @RequestBody CourseDTO courseDTO){
+    public ResponseEntity<List<QuizDTO>> getAllQuizByCourse(@PathVariable String courseId,@Valid @RequestBody CourseDTO courseDTO){
         return ResponseEntity.ok(this.quizService.getQuizByCourse(courseDTO));
-
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<QuizDTO> addQuiz(@RequestBody QuizDTO quizDTO){
-        return ResponseEntity.ok(this.quizService.addQuiz(quizDTO));
+    @PostMapping("/{courseId}/add")
+    public ResponseEntity<QuizDTO> addQuiz(@Valid @RequestBody QuizDTO quizDTO, @PathVariable String courseId){
+        return ResponseEntity.ok(this.quizService.addQuiz(quizDTO, courseId));
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<QuizDTO> updateQuiz(@PathVariable String id, @RequestBody QuizDTO quizDTO){
+    public ResponseEntity<QuizDTO> updateQuiz(@PathVariable String id, @Valid @RequestBody QuizDTO quizDTO){
         return ResponseEntity.ok(this.quizService.updateQuiz(id, quizDTO));
     }
 

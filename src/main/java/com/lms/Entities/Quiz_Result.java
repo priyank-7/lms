@@ -22,6 +22,7 @@ public class Quiz_Result {
     @ManyToOne
     private Course course;
     private Float obtained_marks;
+    private Date Posted_on;
     private Boolean is_submitted;
     private Date submission_date;
 }

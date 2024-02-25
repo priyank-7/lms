@@ -11,7 +11,7 @@ public interface QuizService {
 
     QuizDTO getQuizById(String id);
 
-    QuizDTO addQuiz(QuizDTO quizDTO);
+    QuizDTO addQuiz(QuizDTO quizDTO, String courseId);
 
     QuizDTO updateQuiz(String id, QuizDTO quizDTO);
 

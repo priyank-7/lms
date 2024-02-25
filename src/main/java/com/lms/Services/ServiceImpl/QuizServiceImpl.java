@@ -2,29 +2,31 @@ package com.lms.Services.ServiceImpl;
 
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.QuizDTO;
+import com.lms.Entities.Course;
 import com.lms.Entities.Quiz;
 import com.lms.Exception.ResourceNotFoundException;
+import com.lms.Helper.DateTime.DateTimeUtilities;
 import com.lms.Helper.ModelMappers.CourseMapper;
 import com.lms.Helper.ModelMappers.QuizMapper;
+import com.lms.Repositories.CourseRepository;
 import com.lms.Repositories.QuizRepository;
 import com.lms.Services.Service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class QuizServiceImpl implements QuizService {
 
     private final QuizRepository quizRepository;
+    private final CourseRepository courseRepository;
 
     @Autowired
-    public QuizServiceImpl(QuizRepository quizRepository) {
+    public QuizServiceImpl(QuizRepository quizRepository, CourseRepository courseRepository) {
         this.quizRepository = quizRepository;
+        this.courseRepository = courseRepository;
     }
 
 
@@ -43,8 +45,13 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizDTO addQuiz(QuizDTO quizDTO) {
+    public QuizDTO addQuiz(QuizDTO quizDTO, String courseId) {
+        quizDTO.setCourse(
+                CourseMapper.CourseToCourseDTO(this.courseRepository.findById(courseId)
+                .orElseThrow(()-> new ResourceNotFoundException("Course not found"))));
         quizDTO.setQuiz_id(UUID.randomUUID().toString());
+        quizDTO.setPosted_on(new Date());
+        quizDTO.setIs_active(false);
         return QuizMapper.QuizToQuizDTO(this.quizRepository.save(QuizMapper.QuizDTOToQuiz(quizDTO)));
     }
 
@@ -63,7 +70,10 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<QuizDTO> getQuizByCourse(CourseDTO course) {
-        return Optional.of(this.quizRepository.findByCourse(CourseMapper.CourseDTOTOCourse(course)))
+        Course tempCourse = this.courseRepository.findById(course.getCourse_id())
+                        .orElseThrow(()-> new ResourceNotFoundException("Course not found"));
+        System.out.println(DateTimeUtilities.firstDayOfYear());
+        return Optional.of(this.quizRepository.findAllByPostedOnAfterAndCourse(DateTimeUtilities.firstDayOfYear(), tempCourse))
                 .orElse(Collections.emptyList())
                 .stream().map(QuizMapper::QuizToQuizDTO)
                 .collect(Collectors.toList());
