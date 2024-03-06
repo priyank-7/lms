@@ -76,4 +76,14 @@ public class StudentMapper {
                 .map(course -> CourseMapper.CourseToCourseDTO(course.getStudent_course_pk().getCourse()))
                 .collect(Collectors.toList());
     }
+
+    public static StudentDTO StudentToStudentDTOResults(Student student) {
+        return StudentDTO.builder()
+                .student_id(student.getStudent_id())
+                .name(student.getName())
+                .email(student.getEmail())
+                .image_url(student.getImage_url())
+                .build();
+    }
+
 }

@@ -12,18 +12,13 @@ import java.util.Date;
 public class AssignmentResultDTO {
 
     private String assignmentResult_id;
-
-    //@NotNull(message = "Obtained marks cannot be null")
+    @NotNull(message = "Obtained marks cannot be null")
     private Float obtained_marks;
-
     private Boolean is_submitted;
-
     private Date postedOn;
-
-    //@NotNull(message = "SubmittedOn cannot be null")
-    //@PastOrPresent(message = "SubmittedOn must be in the past")
+    @NotNull(message = "SubmittedOn cannot be null")
+    @PastOrPresent(message = "SubmittedOn must be in the past")
     private Date submittedOn;
-
-    //@NotNull(message = "Assignment cannot be null")
     private AssignmentDTO assignment;
+    private StudentDTO student;
 }

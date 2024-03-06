@@ -21,6 +21,6 @@ public class Assignment_Result {
     private Boolean isSubmitted;
     private Date submissionDate;
     private Date postedOn;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Assignment assignment;
 }

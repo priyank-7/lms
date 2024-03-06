@@ -14,6 +14,7 @@ import com.lms.Repositories.StudentRepository;
 import com.lms.Services.Service.AssignmentResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Collections;
 import java.util.Date;
@@ -49,16 +50,13 @@ public class AssignmentResultServiceImpl implements AssignmentResultService {
     }
 
     @Override
-    public AssignmentResultDTO addAssignmentResult(AssignmentResultDTO assignmentResultDTO, String student_id) {
-        if(assignmentResultDTO.getAssignment() == null)
-            throw new ResourceNotFoundException("Assignment not found");
-
+    public AssignmentResultDTO addAssignmentResult(AssignmentResultDTO assignmentResultDTO, String student_id, String assignment_id) {
         assignmentResultDTO.setAssignmentResult_id(UlidCreator.getUlid().toString());
         assignmentResultDTO.setPostedOn(new Date());
 
         Student tempStudent = this.studentRepository.findById(student_id)
                 .orElseThrow(()-> new ResourceNotFoundException("Student not found"));
-        Assignment tempAssignment = this.assignmentRepository.findById(assignmentResultDTO.getAssignment().getAssignment_id())
+        Assignment tempAssignment = this.assignmentRepository.findById(assignment_id)
                 .orElseThrow(()-> new ResourceNotFoundException("Assignment not found"));
         return AssignmentResultMapper.AssignmentResultToAssignmentResultDTO(
                 this.assignmentResultRepository.save(
@@ -67,7 +65,7 @@ public class AssignmentResultServiceImpl implements AssignmentResultService {
 
     @Override
     public AssignmentResultDTO updateAssignmentResult(AssignmentResultDTO assignmentResultDTO, String assignmentId) {
-        Assignment_Result temp = this.assignmentResultRepository.findById(assignmentResultDTO.getAssignmentResult_id())
+        Assignment_Result temp = this.assignmentResultRepository.findById(assignmentId)
                 .orElseThrow(()-> new ResourceNotFoundException("Assignment Result not found"));
         return AssignmentResultMapper.AssignmentResultToAssignmentResultDTO(this.assignmentResultRepository.save(
                 AssignmentResultMapper.updateAssignmentResultFromDTO(temp, assignmentResultDTO)));
@@ -88,5 +86,15 @@ public class AssignmentResultServiceImpl implements AssignmentResultService {
                         .orElseThrow(()-> new ResourceNotFoundException("Student not found")),
                 DateTimeUtilities.firstDayOfYear())
                 .orElseThrow(()-> new ResourceNotFoundException("Assignment Result not found")));
+    }
+
+    @Override
+    public List<AssignmentResultDTO> getAssignmentResultByAssignment(String assignment_id) {
+        return Optional.ofNullable(this.assignmentResultRepository.findByAssignment(
+                this.assignmentRepository.findById(assignment_id)
+                        .orElseThrow(()-> new ResourceNotFoundException("Assignment not found"))))
+                .orElse(Collections.emptyList())
+                .stream().map(AssignmentResultMapper::AssignmentResultToAssignmentResultDTO)
+                .collect(Collectors.toList());
     }
 }

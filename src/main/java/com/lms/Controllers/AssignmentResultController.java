@@ -2,6 +2,7 @@ package com.lms.Controllers;
 
 import com.lms.DTOs.AssignmentResultDTO;
 import com.lms.Services.Service.AssignmentResultService;
+import com.lms.Services.ServiceImpl.AssignmentResultServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,22 +17,22 @@ public class AssignmentResultController {
     private final AssignmentResultService assignmentResultService;
 
     @Autowired
-    public AssignmentResultController(AssignmentResultService assignmentResultService) {
+    public AssignmentResultController(AssignmentResultServiceImpl assignmentResultService) {
         this.assignmentResultService = assignmentResultService;
     }
 
     @PostMapping("/{student_id}/{assignment_id}/add")
-    public ResponseEntity<AssignmentResultDTO> addAssignmentResult(@PathVariable("student_id")String student_id,@PathVariable("assignment_id")String assignment_id, @Valid AssignmentResultDTO assignmentResultDTO) {
-        return ResponseEntity.ok(this.assignmentResultService.addAssignmentResult(assignmentResultDTO, student_id));
+    public ResponseEntity<AssignmentResultDTO> addAssignmentResult(@PathVariable("student_id")String student_id,@PathVariable("assignment_id")String assignment_id, @Valid @RequestBody AssignmentResultDTO assignmentResultDTO) {
+        return ResponseEntity.ok(this.assignmentResultService.addAssignmentResult(assignmentResultDTO, student_id, assignment_id));
     }
 
-    @GetMapping("/{student_id}/get")
+    @GetMapping("/{student_id}/getByStudent")
     public ResponseEntity<List<AssignmentResultDTO>> getAssignmentResultByStudent(@PathVariable("student_id") String student_id) {
         return ResponseEntity.ok(this.assignmentResultService.getAssignmentResultByStudent(student_id));
     }
 
     @PutMapping("/{assignment_id}/update")
-    public ResponseEntity<AssignmentResultDTO> updateAssignmentResult(@Valid AssignmentResultDTO assignmentResultDTO, @PathVariable String assignment_id) {
+    public ResponseEntity<AssignmentResultDTO> updateAssignmentResult(@Valid @RequestBody AssignmentResultDTO assignmentResultDTO, @PathVariable("assignment_id") String assignment_id) {
         return ResponseEntity.ok(this.assignmentResultService.updateAssignmentResult(assignmentResultDTO, assignment_id));
     }
 
@@ -44,6 +45,11 @@ public class AssignmentResultController {
     @GetMapping("/{student_id}/{assignment_id}/get")
     public ResponseEntity<AssignmentResultDTO> getAssignmentResultByStudentAndAssignment(@PathVariable("student_id")String student_id, @PathVariable("assignment_id") String assignment_id) {
         return ResponseEntity.ok(this.assignmentResultService.getAssignmentResultByAssignmentAndStudent(student_id, assignment_id));
+    }
+
+    @GetMapping("/{assignment_id}/getByAssignment")
+    public ResponseEntity<List<AssignmentResultDTO>> getAssignmentResultByAssignment(@PathVariable("assignment_id") String assignment_id) {
+        return ResponseEntity.ok(this.assignmentResultService.getAssignmentResultByAssignment(assignment_id));
     }
 
 

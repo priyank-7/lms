@@ -13,6 +13,7 @@ public class AssignmentResultMapper {
                 .obtainedMarks(assignmentResultDTO.getObtained_marks())
                 .isSubmitted(assignmentResultDTO.getIs_submitted())
                 .submissionDate(assignmentResultDTO.getSubmittedOn())
+                .postedOn(assignmentResultDTO.getPostedOn())
                 .student(student)
                 .assignment(assignment)
                 .build();
@@ -24,6 +25,9 @@ public class AssignmentResultMapper {
                 .obtained_marks(assignmentResult.getObtainedMarks())
                 .is_submitted(assignmentResult.getIsSubmitted())
                 .submittedOn(assignmentResult.getSubmissionDate())
+                .postedOn(assignmentResult.getPostedOn())
+                .assignment(AssignmentMapper.AssignmentToAssignmentDTO(assignmentResult.getAssignment()))
+                .student(StudentMapper.StudentToStudentDTOResults(assignmentResult.getStudent()))
                 .build();
     }
 
