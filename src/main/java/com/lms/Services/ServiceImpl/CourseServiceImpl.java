@@ -1,5 +1,6 @@
 package com.lms.Services.ServiceImpl;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.lms.DTOs.CourseDTO;
 import com.lms.Entities.Course;
 import com.lms.Exception.ResourceNotFoundException;
@@ -28,7 +29,7 @@ public class CourseServiceImpl implements CourseService{
     public CourseDTO addCourse(CourseDTO courseDTO) {
         return CourseMapper.CourseToCourseDTO(this.courseRepository.
                 save(Course.builder()
-                        .course_id(UUID.randomUUID().toString())
+                        .course_id(UlidCreator.getUlid().toString())
                         .course_code(courseDTO.getCourse_code())
                         .name(courseDTO.getName())
                         .description(courseDTO.getDescription())

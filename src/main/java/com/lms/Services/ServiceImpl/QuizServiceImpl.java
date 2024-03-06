@@ -1,5 +1,6 @@
 package com.lms.Services.ServiceImpl;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.QuizDTO;
 import com.lms.Entities.Course;
@@ -49,7 +50,7 @@ public class QuizServiceImpl implements QuizService {
         quizDTO.setCourse(
                 CourseMapper.CourseToCourseDTO(this.courseRepository.findById(courseId)
                 .orElseThrow(()-> new ResourceNotFoundException("Course not found"))));
-        quizDTO.setQuiz_id(UUID.randomUUID().toString());
+        quizDTO.setQuiz_id(UlidCreator.getUlid().toString());
         quizDTO.setPosted_on(new Date());
         quizDTO.setIs_active(false);
         return QuizMapper.QuizToQuizDTO(this.quizRepository.save(QuizMapper.QuizDTOToQuiz(quizDTO)));

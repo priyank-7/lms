@@ -1,5 +1,6 @@
 package com.lms.Services.ServiceImpl;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.StudentDTO;
 import com.lms.Entities.Course;
@@ -35,7 +36,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDTO addStudent(StudentDTO studentDTO){
-        String Id = UUID.randomUUID().toString();
+        String Id = UlidCreator.getUlid().toString();
         studentDTO.setStudent_id(Id);
         User tempUser = User.builder().user_id(Id).email(studentDTO.getEmail()).password(studentDTO.getPhone()).build();
         Optional.ofNullable(tempUser.getRoles())

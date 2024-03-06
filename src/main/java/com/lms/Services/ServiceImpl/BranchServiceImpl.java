@@ -1,5 +1,6 @@
 package com.lms.Services.ServiceImpl;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.lms.Entities.Branch;
 import com.lms.Exception.ResourceNotFoundException;
 import com.lms.Repositories.BranchRepository;
@@ -22,7 +23,7 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Branch addBranch(Branch branch) throws NullPointerException{
-        branch.setBranch_id(UUID.randomUUID().toString());
+        branch.setBranch_id(UlidCreator.getUlid().toString());
         return branchRepository.save(branch);
     }
 

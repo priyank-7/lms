@@ -22,4 +22,6 @@ public interface AssignmentService {
     List<AssignmentDTO> getAssignmentsByCourse(CourseDTO course);
 
     List<AssignmentDTO> getAssignmentsByCourseAssignDateGreaterThen(CourseDTO course, String courseId);
+
+    List<AssignmentDTO> getAssignmentBySubmissionDateBefore(CourseDTO course, Date date);
 }

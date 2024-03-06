@@ -25,7 +25,7 @@ public class CourseController {
         return ResponseEntity.ok(this.courseService.addCourse(courseDTO));
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteCourse(@PathVariable String id) {
         this.courseService.deleteCourse(id);
         return ResponseEntity.ok().build();

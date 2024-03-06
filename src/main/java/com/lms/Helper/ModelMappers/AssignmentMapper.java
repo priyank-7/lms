@@ -7,27 +7,27 @@ public class AssignmentMapper {
 
     public static AssignmentDTO AssignmentToAssignmentDTO(Assignment assignment){
         return AssignmentDTO.builder()
-                .assignment_id(assignment.getAssignment_id())
-                .assign_date(assignment.getAssign_date())
-                .submission_date(assignment.getSubmission_date())
-                .total_marks(assignment.getTotal_marks())
+                .assignment_id(assignment.getAssignmentId())
+                .assign_date(assignment.getAssignDate())
+                .submission_date(assignment.getSubmissionDate())
+                .total_marks(assignment.getTotalMarks())
                 .course(CourseMapper.CourseToCourseDTO(assignment.getCourse()))
                 .build();
     }
 
     public static Assignment AssignmentDTOTOAssignment(AssignmentDTO assignmentDTO){
         return Assignment.builder()
-                .assignment_id(assignmentDTO.getAssignment_id())
-                .total_marks(assignmentDTO.getTotal_marks())
-                .assign_date(assignmentDTO.getAssign_date())
-                .submission_date(assignmentDTO.getSubmission_date())
+                .assignmentId(assignmentDTO.getAssignment_id())
+                .totalMarks(assignmentDTO.getTotal_marks())
+                .assignDate(assignmentDTO.getAssign_date())
+                .submissionDate(assignmentDTO.getSubmission_date())
                 .course(CourseMapper.CourseDTOTOCourse(assignmentDTO.getCourse()))
                 .build();
     }
 
     public static Assignment AssignmentDTOTOAssignment(Assignment assignment, AssignmentDTO assignmentDTO){
-        assignment.setTotal_marks(assignmentDTO.getTotal_marks());
-        assignment.setSubmission_date(assignmentDTO.getSubmission_date());
+        assignment.setTotalMarks(assignmentDTO.getTotal_marks());
+        assignment.setSubmissionDate(assignmentDTO.getSubmission_date());
         return assignment;
     }
 }

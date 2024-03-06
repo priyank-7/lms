@@ -1,5 +1,6 @@
 package com.lms.Services.ServiceImpl;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.FacultyDTO;
 import com.lms.Entities.Branch;
@@ -50,7 +51,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public FacultyDTO addFaculty(FacultyDTO facultyDTO) {
-        facultyDTO.setFaculty_id(UUID.randomUUID().toString());
+        facultyDTO.setFaculty_id(UlidCreator.getUlid().toString());
         return FacultyMapper.FacultyToFacultyDTO(this.facultyRepository.save(FacultyMapper.FacultyDTOTOFaculty(facultyDTO)));
     }
 

@@ -14,12 +14,13 @@ import java.util.Date;
 public class Assignment_Result {
 
     @Id
-    private String assignment_id;
+    private String assignmentId;
     @ManyToOne
     private Student student;
+    private Float obtainedMarks;
+    private Boolean isSubmitted;
+    private Date submissionDate;
+    private Date postedOn;
     @ManyToOne
-    private Course course;
-    private Float obtained_marks;
-    private Boolean is_submitted;
-    private Date submission_date;
+    private Assignment assignment;
 }

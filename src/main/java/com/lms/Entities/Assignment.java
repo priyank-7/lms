@@ -18,10 +18,10 @@ import java.util.Date;
 public class Assignment {
 
     @Id
-    private String assignment_id;
+    private String assignmentId;
     @ManyToOne
     private Course course;
-    private Float total_marks;
-    private Date assign_date;
-    private Date submission_date;
+    private Float totalMarks;
+    private Date assignDate;
+    private Date submissionDate;
 }

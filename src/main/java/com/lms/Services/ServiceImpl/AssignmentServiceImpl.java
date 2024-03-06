@@ -1,5 +1,6 @@
 package com.lms.Services.ServiceImpl;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.lms.DTOs.AssignmentDTO;
 import com.lms.DTOs.CourseDTO;
 import com.lms.Entities.Assignment;
@@ -29,7 +30,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public AssignmentDTO addAssignment(AssignmentDTO assignmentDTO) {
-        assignmentDTO.setAssignment_id(UUID.randomUUID().toString());
+        assignmentDTO.setAssignment_id(UlidCreator.getUlid().toString());
         assignmentDTO.setAssign_date(new Date());
         return AssignmentMapper.AssignmentToAssignmentDTO(this.assignmentRepository.save(
                 AssignmentMapper.AssignmentDTOTOAssignment(assignmentDTO)));
@@ -90,5 +91,10 @@ public class AssignmentServiceImpl implements AssignmentService {
                 .stream()
                 .map(AssignmentMapper::AssignmentToAssignmentDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AssignmentDTO> getAssignmentBySubmissionDateBefore(CourseDTO course, Date date) {
+        return null;
     }
 }

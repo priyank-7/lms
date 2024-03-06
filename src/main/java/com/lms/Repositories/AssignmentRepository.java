@@ -12,4 +12,8 @@ public interface AssignmentRepository extends JpaRepository<Assignment, String> 
 
     List<Assignment> findAssignmentByCourse (Course course);
 
+    List<Assignment> findAssignmentsByAssignDateAfterAndCourseAndSubmissionDateBefore(java.util.Date assignDate, Course course, java.util.Date submissionDate);
+
+    List<Assignment> findAssignmentsBySubmissionDateBeforeAndAssignDateAfter(java.util.Date submissionDate, java.util.Date assignDate);
+
 }
