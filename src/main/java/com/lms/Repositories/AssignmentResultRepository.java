@@ -16,8 +16,6 @@ public interface AssignmentResultRepository extends JpaRepository<Assignment_Res
 
     List<Assignment_Result> findByStudentAndPostedOnAfter(Student student, java.util.Date postedOn);
 
-    Optional<Assignment_Result> findByAssignmentAndStudentAndPostedOnAfter(Assignment assignment, Student student, java.util.Date postedOn);
-
     List<Assignment_Result> findByAssignment(Assignment assignment);
 
 }

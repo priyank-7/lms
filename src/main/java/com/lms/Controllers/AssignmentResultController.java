@@ -26,6 +26,11 @@ public class AssignmentResultController {
         return ResponseEntity.ok(this.assignmentResultService.addAssignmentResult(assignmentResultDTO, student_id, assignment_id));
     }
 
+    @GetMapping("{assignmentResult_id}/get")
+    public ResponseEntity<AssignmentResultDTO> getAssignmentResult(@PathVariable("assignmentResult_id") String assignmentResult_id) {
+        return ResponseEntity.ok(this.assignmentResultService.getAssignmentResult(assignmentResult_id));
+    }
+
     @GetMapping("/{student_id}/getByStudent")
     public ResponseEntity<List<AssignmentResultDTO>> getAssignmentResultByStudent(@PathVariable("student_id") String student_id) {
         return ResponseEntity.ok(this.assignmentResultService.getAssignmentResultByStudent(student_id));

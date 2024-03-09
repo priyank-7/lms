@@ -67,6 +67,7 @@ public class AssignmentResultServiceImpl implements AssignmentResultService {
     public AssignmentResultDTO updateAssignmentResult(AssignmentResultDTO assignmentResultDTO, String assignmentId) {
         Assignment_Result temp = this.assignmentResultRepository.findById(assignmentId)
                 .orElseThrow(()-> new ResourceNotFoundException("Assignment Result not found"));
+        assignmentResultDTO.setPostedOn(new Date());
         return AssignmentResultMapper.AssignmentResultToAssignmentResultDTO(this.assignmentResultRepository.save(
                 AssignmentResultMapper.updateAssignmentResultFromDTO(temp, assignmentResultDTO)));
     }
@@ -79,12 +80,11 @@ public class AssignmentResultServiceImpl implements AssignmentResultService {
 
     @Override
     public AssignmentResultDTO getAssignmentResultByAssignmentAndStudent(String studentId, String assignmentId) {
-        return AssignmentResultToAssignmentResultDTO(this.assignmentResultRepository.findByAssignmentAndStudentAndPostedOnAfter(
+        return AssignmentResultToAssignmentResultDTO(this.assignmentResultRepository.findByAssignmentAndStudent(
                 this.assignmentRepository.findById(assignmentId)
                         .orElseThrow(()-> new ResourceNotFoundException("assignment not found")),
                 this.studentRepository.findById(studentId)
-                        .orElseThrow(()-> new ResourceNotFoundException("Student not found")),
-                DateTimeUtilities.firstDayOfYear())
+                        .orElseThrow(()-> new ResourceNotFoundException("Student not found")))
                 .orElseThrow(()-> new ResourceNotFoundException("Assignment Result not found")));
     }
 
@@ -96,5 +96,11 @@ public class AssignmentResultServiceImpl implements AssignmentResultService {
                 .orElse(Collections.emptyList())
                 .stream().map(AssignmentResultMapper::AssignmentResultToAssignmentResultDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AssignmentResultDTO getAssignmentResult(String assignmentResult_id) {
+        return AssignmentResultToAssignmentResultDTO(this.assignmentResultRepository.findById(assignmentResult_id)
+                .orElseThrow(()-> new ResourceNotFoundException("Assignment Result not found")));
     }
 }

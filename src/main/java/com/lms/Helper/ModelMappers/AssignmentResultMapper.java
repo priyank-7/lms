@@ -26,7 +26,6 @@ public class AssignmentResultMapper {
                 .is_submitted(assignmentResult.getIsSubmitted())
                 .submittedOn(assignmentResult.getSubmissionDate())
                 .postedOn(assignmentResult.getPostedOn())
-                .assignment(AssignmentMapper.AssignmentToAssignmentDTO(assignmentResult.getAssignment()))
                 .student(StudentMapper.StudentToStudentDTOResults(assignmentResult.getStudent()))
                 .build();
     }

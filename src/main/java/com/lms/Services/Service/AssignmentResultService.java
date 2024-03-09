@@ -12,12 +12,14 @@ public interface AssignmentResultService {
 
     AssignmentResultDTO addAssignmentResult(AssignmentResultDTO assignmentResultDTO, String student_id, String assignment_id);
 
-    AssignmentResultDTO updateAssignmentResult(AssignmentResultDTO assignmentResultDTO, String assignment_id);
+    AssignmentResultDTO updateAssignmentResult(AssignmentResultDTO assignmentResultDTO, String assignmentResult_id);
 
     void deleteAssignmentResult(String assignment_id);
 
-    AssignmentResultDTO getAssignmentResultByAssignmentAndStudent(String student_id, String course_id);
+    AssignmentResultDTO getAssignmentResultByAssignmentAndStudent(String student_id, String assignment_id);
 
     List<AssignmentResultDTO> getAssignmentResultByAssignment(String assignment_id);
+
+    AssignmentResultDTO getAssignmentResult(String assignmentResult_id);
 
 }
