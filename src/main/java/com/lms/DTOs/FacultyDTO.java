@@ -24,6 +24,9 @@ public class FacultyDTO {
     @NotBlank(message = "Phone number cannot be blank")
     @Length(min = 10, max = 10, message = "Phone number should be of 10 digits")
     private String phone;
+    @Size(min = 8, max = 16)
+    @NotBlank(message = "Password cannot be blank")
+    private String password;
     @NotBlank(message = "Address cannot be blank")
     @Size(max = 200, message = "Address should be less than 200 characters")
     private String address;

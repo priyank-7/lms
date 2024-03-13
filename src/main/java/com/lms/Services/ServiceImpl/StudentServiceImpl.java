@@ -38,7 +38,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO addStudent(StudentDTO studentDTO){
         String Id = UlidCreator.getUlid().toString();
         studentDTO.setStudent_id(Id);
-        User tempUser = User.builder().user_id(Id).email(studentDTO.getEmail()).password(studentDTO.getPhone()).build();
+        User tempUser = User.builder().user_id(Id).email(studentDTO.getEmail()).password(studentDTO.getPassword()).build();
         Optional.ofNullable(tempUser.getRoles())
                 .orElse(new HashSet<>())
                 .add(this.roleRepository.findByName(Roles.ROLE_STUDENT.toString()));

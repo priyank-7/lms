@@ -8,6 +8,7 @@ import com.lms.Repositories.AssignmentRepository;
 import com.lms.Repositories.CourseRepository;
 import com.lms.Repositories.StudentRepository;
 import com.lms.Repositories.UserRepository;
+import com.lms.Services.ServiceImpl.ResultServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,9 @@ class LmsApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ResultServiceImpl resultService;
     @Test
     void contextLoads() {
 
@@ -58,6 +62,8 @@ class LmsApplicationTests {
 
     @Test
     void setAssignmentRepository(){
+
+        System.out.println(resultService.getResultById("5823fa2f-632f-46b1-a585-5c21ad95d9ab", "0a30473b-d875-4d32-a590-785159ecbcba"));
 
         System.out.println(DateTimeUtilities.firstDayOfYear());
 

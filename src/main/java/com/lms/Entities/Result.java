@@ -1,8 +1,11 @@
 package com.lms.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import lombok.*;
+
+import java.util.Date;
 
 @Builder
 @AllArgsConstructor
@@ -13,9 +16,11 @@ import lombok.*;
 public class Result {
 
     @EmbeddedId
-    private PK_Result result_id;
-    private Float total_marks;
-    private Float obtained_marks;
+    @JsonIgnore(value = false)
+    private PK_Result resultId;
+    private Float totalMarks;
+    private Float obtainedMarks;
     private String grade;
-    private Boolean is_passed;
+    private Boolean isPassed;
+    private Date postedOn;
 }

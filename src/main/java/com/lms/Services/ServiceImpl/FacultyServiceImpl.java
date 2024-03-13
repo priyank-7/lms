@@ -5,13 +5,13 @@ import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.FacultyDTO;
 import com.lms.Entities.Branch;
 import com.lms.Entities.Faculty;
+import com.lms.Entities.User;
 import com.lms.Exception.BadCredentialsException;
 import com.lms.Exception.ResourceNotFoundException;
 import com.lms.Helper.ModelMappers.CourseMapper;
 import com.lms.Helper.ModelMappers.FacultyMapper;
-import com.lms.Repositories.BranchRepository;
-import com.lms.Repositories.CourseRepository;
-import com.lms.Repositories.FacultyRepository;
+import com.lms.Helper.Roles;
+import com.lms.Repositories.*;
 import com.lms.Services.Service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,16 +25,18 @@ public class FacultyServiceImpl implements FacultyService {
     private final FacultyRepository facultyRepository;
     private final BranchRepository branchRepository;
     private final CourseRepository courseRepository;
-
-    HashSet<Integer> set = new HashSet<>();
+    private final RoleRepository roleRepository;
+    private final UserRepository usesRepository;
 
 
 
     @Autowired
-    public FacultyServiceImpl(FacultyRepository facultyRepository, BranchRepository branchRepository, CourseRepository courseRepository) {
+    public FacultyServiceImpl(FacultyRepository facultyRepository, BranchRepository branchRepository, CourseRepository courseRepository, RoleRepository roleRepository, UserRepository usesRepository) {
         this.facultyRepository = facultyRepository;
         this.branchRepository = branchRepository;
         this.courseRepository = courseRepository;
+        this.roleRepository = roleRepository;
+        this.usesRepository = usesRepository;
     }
     @Override
     public List<FacultyDTO> getAllFaculties() {
@@ -52,6 +54,11 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public FacultyDTO addFaculty(FacultyDTO facultyDTO) {
         facultyDTO.setFaculty_id(UlidCreator.getUlid().toString());
+        User tempUser = User.builder().user_id(facultyDTO.getFaculty_id()).email(facultyDTO.getEmail()).password(facultyDTO.getPassword()).build();
+        Optional.ofNullable(tempUser.getRoles())
+                .orElse(new HashSet<>())
+                .add(this.roleRepository.findByName(Roles.ROLE_STUDENT.toString()));
+        this.usesRepository.save(tempUser);
         return FacultyMapper.FacultyToFacultyDTO(this.facultyRepository.save(FacultyMapper.FacultyDTOTOFaculty(facultyDTO)));
     }
 
