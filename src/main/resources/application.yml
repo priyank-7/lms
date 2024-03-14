@@ -15,3 +15,8 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans : false
+
+  spring:
+    cache:
+      redis:
+        time-to-live: 10s

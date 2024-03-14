@@ -6,12 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Builder
 @Getter
 @Setter
-public class ResultDTO {
+public class ResultDTO implements Serializable{
 
     private String studentId;
     private String courseId;

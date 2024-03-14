@@ -10,6 +10,7 @@ import com.lms.Repositories.ResultRepository;
 import com.lms.Repositories.StudentRepository;
 import com.lms.Services.Service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -61,6 +62,7 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
+    @Cacheable("resultById")
     public ResultDTO getResultById(String studentId, String courseId) {
         return ResultMapper.ResultTOResultDTO(resultRepository.findById(
                 ResultMapper.mapToPKResult(
@@ -81,6 +83,7 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
+    @Cacheable("resultByStudentId")
     public List<ResultDTO> getResultByStudentId(String studentId) {
         return Optional.ofNullable(resultRepository.findResultByStudent(
                 studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student not found"))))

@@ -20,6 +20,7 @@ public class ResultController {
         this.resultService = resultService;
     }
 
+
     @GetMapping("{studentId}/{courseId}/getById")
     public ResponseEntity<ResultDTO> findResultById(@PathVariable String studentId, @PathVariable String courseId) {
         return ResponseEntity.ok(resultService.getResultById(studentId, courseId));
