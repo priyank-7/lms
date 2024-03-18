@@ -24,6 +24,6 @@ public class User {
     @Size(min = 8, max = 16)
     @NotBlank(message = "Password cannot be blank")
     private String password;
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 }
