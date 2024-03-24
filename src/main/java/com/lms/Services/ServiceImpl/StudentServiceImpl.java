@@ -12,7 +12,10 @@ import com.lms.Helper.Roles;
 import com.lms.Repositories.*;
 import com.lms.Services.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,26 +27,29 @@ public class StudentServiceImpl implements StudentService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, CourseRepository courseRepository, UserRepository userRepository, RoleRepository roleRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, CourseRepository courseRepository, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     @Override
-    public StudentDTO addStudent(StudentDTO studentDTO){
+    @Transactional
+    public StudentDTO addStudent(StudentDTO studentDTO) throws DataIntegrityViolationException {
         String Id = UlidCreator.getUlid().toString();
         studentDTO.setStudent_id(Id);
-        User tempUser = User.builder().user_id(Id).email(studentDTO.getEmail()).password(studentDTO.getPassword()).build();
+        User tempUser = User.builder().user_id(Id).email(studentDTO.getEmail()).password(passwordEncoder.encode(studentDTO.getPassword())).build();
         Optional.ofNullable(tempUser.getRoles())
                 .orElse(new HashSet<>())
-                .add(this.roleRepository.findByName(Roles.ROLE_STUDENT.toString()));
-        this.userRepository.save(tempUser);
-        return StudentMapper.StudentToStudentDTO(this.studentRepository.save(StudentMapper.StudentDTOToStudent(studentDTO)));
+                .add(this.roleRepository.findByName(Roles.ROLE_STUDENT.toString()).orElseThrow(()-> new ResourceNotFoundException("Role not found")));
+        this.userRepository.save(tempUser); // unique constraint violation
+        return StudentMapper.StudentToStudentDTO(this.studentRepository.save(StudentMapper.StudentDTOToStudent(studentDTO))); // unique constraint violation
     }
 
     @Override
@@ -70,7 +76,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
     public void deleteStudent(String student_id, StudentDTO studentDTO) {
+        this.userRepository.delete(this.userRepository.findById(student_id)
+                .orElseThrow(()-> new ResourceNotFoundException("User not found")));
         this.studentRepository.delete(this.studentRepository.findById(student_id)
                 .orElseThrow(()-> new ResourceNotFoundException("Student not found")));
     }

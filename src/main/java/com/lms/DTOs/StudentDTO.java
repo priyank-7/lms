@@ -38,7 +38,7 @@ public class StudentDTO {
     @NotNull(message = "Date of birth cannot be blank")
     private Date dob;
     @NotNull(message = "Branch cannot be blank")
-    private Branch branch;
+    private BranchDTO branch;
     @NotNull(message = "Enrollment date cannot be blank")
     private Date enrollment_date;
     private List<CourseDTO> courses;

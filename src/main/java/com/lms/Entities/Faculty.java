@@ -1,5 +1,7 @@
 package com.lms.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import lombok.*;
@@ -23,7 +25,8 @@ public class Faculty {
     private String address;
     private String gender;
     private Date dob;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore(value = false)
     private Branch branch;
     private Date joining_date;
     private String qualification;

@@ -21,20 +21,15 @@ public class Student {
 
     @Id
     private String student_id;
-    @NotBlank
     private String name;
-    @Email
     @Column(unique = true)
     private String email;
-    @NotBlank
-    @Size(min = 10,max = 10,message = "Phone number should be 10 digits")
     private String phone;
-    @NotBlank
     private String address;
     private String gender;
     private Date dob;
-    @OneToOne
-    @JoinColumn(name = "branch_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore(value = false)
     private Branch branch;
     private Date enrollment_date;
     private String image_url;

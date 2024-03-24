@@ -14,7 +14,10 @@ import com.lms.Helper.Roles;
 import com.lms.Repositories.*;
 import com.lms.Services.Service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,16 +30,18 @@ public class FacultyServiceImpl implements FacultyService {
     private final CourseRepository courseRepository;
     private final RoleRepository roleRepository;
     private final UserRepository usesRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
 
     @Autowired
-    public FacultyServiceImpl(FacultyRepository facultyRepository, BranchRepository branchRepository, CourseRepository courseRepository, RoleRepository roleRepository, UserRepository usesRepository) {
+    public FacultyServiceImpl(FacultyRepository facultyRepository, BranchRepository branchRepository, CourseRepository courseRepository, RoleRepository roleRepository, UserRepository usesRepository, PasswordEncoder passwordEncoder) {
         this.facultyRepository = facultyRepository;
         this.branchRepository = branchRepository;
         this.courseRepository = courseRepository;
         this.roleRepository = roleRepository;
         this.usesRepository = usesRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     @Override
     public List<FacultyDTO> getAllFaculties() {
@@ -52,12 +57,13 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public FacultyDTO addFaculty(FacultyDTO facultyDTO) {
+    @Transactional
+    public FacultyDTO addFaculty(FacultyDTO facultyDTO) throws DataIntegrityViolationException {
         facultyDTO.setFaculty_id(UlidCreator.getUlid().toString());
-        User tempUser = User.builder().user_id(facultyDTO.getFaculty_id()).email(facultyDTO.getEmail()).password(facultyDTO.getPassword()).build();
+        User tempUser = User.builder().user_id(facultyDTO.getFaculty_id()).email(facultyDTO.getEmail()).password(passwordEncoder.encode(facultyDTO.getPassword())).build();
         Optional.ofNullable(tempUser.getRoles())
                 .orElse(new HashSet<>())
-                .add(this.roleRepository.findByName(Roles.ROLE_STUDENT.toString()));
+                .add(this.roleRepository.findByName(Roles.ROLE_STUDENT.toString()).orElseThrow(()-> new ResourceNotFoundException("Role not found")));
         this.usesRepository.save(tempUser);
         return FacultyMapper.FacultyToFacultyDTO(this.facultyRepository.save(FacultyMapper.FacultyDTOTOFaculty(facultyDTO)));
     }
@@ -73,7 +79,10 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    @Transactional
     public void deleteFaculty(String id) {
+        this.usesRepository.delete(this.usesRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("User not found with Provided ID: " + id)));
         this.facultyRepository.delete(this.facultyRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Faculty not found with Provided ID: " + id)));
     }

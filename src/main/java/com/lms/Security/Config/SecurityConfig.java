@@ -1,6 +1,7 @@
 package com.lms.Security.Config;
 
 import com.lms.Security.JWT.JwtAuthFilter;
+import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,13 +39,18 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/user/auth").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        JwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                        JwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling( ex -> ex.authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(401);
+                    response.getWriter().write("Unauthorized");
+                }));
         return http.build();
     }
 

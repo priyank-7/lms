@@ -1,5 +1,8 @@
 package com.lms.Exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,5 +42,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
         return ResponseEntity.badRequest().body(e.getBindingResult().getFieldError().getDefaultMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<?> DataIntegrityViolationExceptionHandler(DataIntegrityViolationException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<?> ExpiredJwtExceptionHandler(JwtException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

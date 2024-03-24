@@ -5,6 +5,7 @@ import com.lms.Services.Service.ResultService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class ResultController {
         return ResponseEntity.ok(resultService.getResultById(studentId, courseId));
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @PostMapping("{studentId}/{courseId}/add")
     public ResponseEntity<ResultDTO> addResult(@Valid @RequestBody ResultDTO result,@PathVariable String studentId,@PathVariable String courseId) {
         return ResponseEntity.ok(resultService.saveResult(result, studentId, courseId));
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @PutMapping("{studentId}/{courseId}/update")
     public ResponseEntity<ResultDTO> updateResult(@Valid @RequestBody ResultDTO result,@PathVariable String studentId,@PathVariable String courseId) {
         return ResponseEntity.ok(resultService.updateResult(result, studentId, courseId));
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @DeleteMapping("{studentId}/{courseId}/delete")
     public ResponseEntity<?> deleteResult(@PathVariable String studentId,@PathVariable String courseId) {
         resultService.deleteResult(studentId, courseId);
@@ -47,6 +51,7 @@ public class ResultController {
         return ResponseEntity.ok(resultService.getResultByStudentId(studentId));
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @GetMapping("{courseId}/getByCourseId")
     public ResponseEntity<List<ResultDTO>> findResultByCourseId(@PathVariable String courseId) {
         return ResponseEntity.ok(resultService.getResultByCourseId(courseId));

@@ -1,6 +1,8 @@
 package com.lms.Helper.ModelMappers;
 
+import com.lms.DTOs.BranchDTO;
 import com.lms.DTOs.FacultyDTO;
+import com.lms.Entities.Branch;
 import com.lms.Entities.Faculty;
 
 import java.util.Collections;
@@ -17,7 +19,10 @@ public class FacultyMapper {
                 .phone(faculty.getPhone())
                 .dob(faculty.getDob())
                 .address(faculty.getAddress())
-                .branch(faculty.getBranch())
+                .branch(BranchDTO.builder()
+                        .branch_id(faculty.getBranch().getBranch_id())
+                        .name(faculty.getBranch().getName())
+                        .build())
                 .joining_date(faculty.getJoining_date())
                 .gender(faculty.getGender())
                 .qualification(faculty.getQualification())
@@ -38,7 +43,10 @@ public class FacultyMapper {
                 .phone(facultyDTO.getPhone())
                 .dob(facultyDTO.getDob())
                 .address(facultyDTO.getAddress())
-                .branch(facultyDTO.getBranch())
+                .branch(Branch.builder()
+                        .branch_id(facultyDTO.getBranch().getBranch_id())
+                        .name(facultyDTO.getBranch().getName())
+                        .build())
                 .joining_date(facultyDTO.getJoining_date())
                 .gender(facultyDTO.getGender())
                 .qualification(facultyDTO.getQualification())
@@ -52,7 +60,10 @@ public class FacultyMapper {
         faculty.setPhone(facultyDTO.getPhone());
         faculty.setDob(facultyDTO.getDob());
         faculty.setAddress(facultyDTO.getAddress());
-        faculty.setBranch(facultyDTO.getBranch());
+        faculty.setBranch(Branch.builder()
+                .branch_id(facultyDTO.getBranch().getBranch_id())
+                .name(facultyDTO.getBranch().getName())
+                .build());
         faculty.setJoining_date(facultyDTO.getJoining_date());
         faculty.setGender(facultyDTO.getGender());
         faculty.setQualification(facultyDTO.getQualification());

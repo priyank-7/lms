@@ -1,11 +1,9 @@
 package com.lms.Helper.ModelMappers;
 
+import com.lms.DTOs.BranchDTO;
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.StudentDTO;
-import com.lms.Entities.Course;
-import com.lms.Entities.Student;
-import com.lms.Entities.Student_Course;
-import com.lms.Entities.Student_Course_PK;
+import com.lms.Entities.*;
 
 import java.util.Collections;
 import java.util.Date;
@@ -25,7 +23,10 @@ public class StudentMapper {
                 .gender(student.getGender())
                 .dob(student.getDob())
                 .enrollment_date(student.getEnrollment_date())
-                .branch(student.getBranch())
+                .branch(BranchDTO.builder()
+                        .branch_id(student.getBranch().getBranch_id())
+                        .name(student.getBranch().getName())
+                        .build())
                 .courses(StudentCourseTOCourseList(student.getStudentCourses()))
                 .image_url(student.getImage_url())
                 .build();
@@ -41,7 +42,10 @@ public class StudentMapper {
                 .gender(studentDTO.getGender())
                 .dob(studentDTO.getDob())
                 .enrollment_date(studentDTO.getEnrollment_date())
-                .branch(studentDTO.getBranch())
+                .branch(Branch.builder()
+                        .branch_id(studentDTO.getBranch().getBranch_id())
+                        .name(studentDTO.getBranch().getName())
+                        .build())
                 .image_url(studentDTO.getImage_url())
                 .build();
     }
@@ -54,7 +58,10 @@ public class StudentMapper {
         student.setGender(studentDTO.getGender());
         student.setDob(studentDTO.getDob());
         student.setEnrollment_date(studentDTO.getEnrollment_date());
-        student.setBranch(studentDTO.getBranch());
+        student.setBranch(Branch.builder()
+                .branch_id(studentDTO.getBranch().getBranch_id())
+                .name(studentDTO.getBranch().getName())
+                .build());
         student.setImage_url(studentDTO.getImage_url());
         return student;
     }

@@ -35,7 +35,7 @@ public class FacultyDTO {
     @NotNull(message = "Joining date cannot be null")
     private Date joining_date;
     @NotBlank(message = "Branch cannot be blank")
-    private Branch branch;
+    private BranchDTO branch;
     @NotBlank(message = "Faculty Gender cannot be blank")
     private String gender;
     @NotBlank(message = "Qualification cannot be blank")

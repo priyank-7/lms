@@ -6,6 +6,7 @@ import com.lms.Services.Service.AssignmentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class AssignmentController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @PostMapping("/add")
     public ResponseEntity<AssignmentDTO> addAssignment(@Valid @RequestBody AssignmentDTO assignmentDTO){
         return ResponseEntity.ok(this.assignmentService.addAssignment(assignmentDTO));
@@ -37,11 +39,13 @@ public class AssignmentController {
         return ResponseEntity.ok(this.assignmentService.getAllAssignments());
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @PutMapping("/{id}/update")
     public ResponseEntity<AssignmentDTO> updateAssignment(@PathVariable String id, @Valid @RequestBody AssignmentDTO assignmentDTO){
         return ResponseEntity.ok(this.assignmentService.updateAssignment(id, assignmentDTO));
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> deleteAssignment(@PathVariable String id){
         this.assignmentService.deleteAssignment(id);

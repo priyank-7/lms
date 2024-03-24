@@ -1,8 +1,9 @@
 package com.lms.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+
 import lombok.*;
 
 import java.util.Set;
@@ -21,9 +22,17 @@ public class User {
     @Column(unique = true)
     @NotBlank(message = "Email cannot be blank")
     private String email;
-    @Size(min = 8, max = 16)
     @NotBlank(message = "Password cannot be blank")
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "users")
     private Set<Role> roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }

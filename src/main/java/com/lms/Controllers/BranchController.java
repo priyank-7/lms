@@ -5,6 +5,7 @@ import com.lms.Services.Service.BranchService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,17 +21,20 @@ public class BranchController {
         this.branchService = branchService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<Branch> addBranch(@Valid @RequestBody Branch branch){
         return ResponseEntity.ok(branchService.addBranch(branch));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{branchId}/delete")
     public ResponseEntity<Void> deleteBranch(@PathVariable String branchId) throws RuntimeException{
         branchService.deleteBranch(branchId);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{branchId}/update")
     public ResponseEntity<Branch> updateBranch(@PathVariable String branchId, @Valid @RequestBody Branch branch) throws Exception{
         return ResponseEntity.ok(branchService.updateBranch(branchId, branch));

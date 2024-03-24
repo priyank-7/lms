@@ -7,6 +7,7 @@ import com.lms.Exception.BadCredentialsException;
 import com.lms.Services.Service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,22 +33,26 @@ public class FacultyController {
         return ResponseEntity.ok(this.facultyService.getAllFaculties());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<FacultyDTO> addFaculty(@RequestBody FacultyDTO facultyDTO){
         return ResponseEntity.ok(this.facultyService.addFaculty(facultyDTO));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}/update")
     public ResponseEntity<FacultyDTO> updateFaculty(@PathVariable String id, @RequestBody FacultyDTO facultyDTO){
         return ResponseEntity.ok(this.facultyService.updateFaculty(id, facultyDTO));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> deleteFaculty(@PathVariable String id){
         this.facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/{faculty_id}/addcourse")
     public ResponseEntity<FacultyDTO> addCourseToFaculty(@PathVariable String faculty_id, @RequestBody List<CourseDTO> courses) throws BadCredentialsException {
         return ResponseEntity.ok(this.facultyService.addCourseToFaculty(faculty_id, courses));

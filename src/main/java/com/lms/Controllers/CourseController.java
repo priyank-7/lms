@@ -5,6 +5,7 @@ import com.lms.Services.Service.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,17 +21,20 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<CourseDTO> addCourse(@Valid @RequestBody CourseDTO courseDTO) {
         return ResponseEntity.ok(this.courseService.addCourse(courseDTO));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteCourse(@PathVariable String id) {
         this.courseService.deleteCourse(id);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{course_id}/update")
     public ResponseEntity<CourseDTO> updateCourse(@PathVariable String course_id ,@Valid @RequestBody CourseDTO courseDTO) {
         return ResponseEntity.ok(this.courseService.updateCourse(course_id, courseDTO));

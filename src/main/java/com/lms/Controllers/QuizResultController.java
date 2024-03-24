@@ -6,6 +6,7 @@ import com.lms.Services.ServiceImpl.QuizResultServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class QuizResultController {
         this.quizResultService = quizResultService;
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @PostMapping("/{student_id}/{quiz_id}/add")
     public ResponseEntity<QuizResultDTO> addQuizResult(@PathVariable("student_id")String student_id, @PathVariable("quiz_id")String quiz_id, @Valid @RequestBody QuizResultDTO quizResultDTO) {
         return ResponseEntity.ok(this.quizResultService.addQuizResult(quizResultDTO, student_id, quiz_id));
@@ -36,11 +38,13 @@ public class QuizResultController {
         return ResponseEntity.ok(this.quizResultService.getQuizResultByStudent(student_id));
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @PutMapping("/{quizResult_id}/update")
     public ResponseEntity<QuizResultDTO> updateQuizResult(@Valid @RequestBody QuizResultDTO quizResultDTO, @PathVariable("quizResult_id") String quizResult_id) {
         return ResponseEntity.ok(this.quizResultService.updateQuizResult(quizResultDTO, quizResult_id));
     }
 
+    @PreAuthorize("hasRole('ROLE_FACULTY')")
     @DeleteMapping("/{quizResult_id}/delete")
     public ResponseEntity<?> deleteQuizResult(@PathVariable String quizResult_id) {
         this.quizResultService.deleteQuizResult(quizResult_id);
