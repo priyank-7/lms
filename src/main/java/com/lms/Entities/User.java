@@ -16,6 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class User {
 
+    // $2a$10$qtsTcGYdrq/452kTaX.gH.5fNF0mGzvtYzsP2xxuq8KOLDF9rQe5G
+    // asd@gmail.com
     @Id
     @Column(name = "user_id")
     private String user_id;
@@ -25,6 +27,11 @@ public class User {
     @NotBlank(message = "Password cannot be blank")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     @JsonManagedReference(value = "users")
     private Set<Role> roles;
 
@@ -34,5 +41,8 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    public void setRoles(Role role) {
+        this.roles.add(role);
     }
 }
