@@ -33,10 +33,9 @@ This project implements a REST API for a Learning Management System (LMS) built 
 
 ```bash
 git clone [https://github.com/](https://github.com/)<your-username>/LMS.git
-
-```bash
 cd LMS
 mvn clean install
+```
 
 **Configuration:**
 
@@ -49,5 +48,6 @@ Redis Cache Configuration (Optional): Update the <code>CacheConfig,java> file wi
 
 ```bash
 mvn spring-boot:run
+```
 
 The application will be running on port: 8080).
