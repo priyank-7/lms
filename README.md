@@ -17,8 +17,6 @@ This project implements a REST API for a Learning Management System (LMS) built 
 * Data Transfer Objects (DTOs) for response optimization
 * Caching with Redis for improved performance
 
-**Optional - Add any additional features you've implemented**
-
 ### Getting Started
 
 **Prerequisites:**
