@@ -26,13 +26,14 @@ This project implements a REST API for a Learning Management System (LMS) built 
 * Java 17
 * Maven
 * MySql Server
+* Redis Server
 
 **Installation:**
 
 1. Clone the repository:
 
 ```bash
-git clone [https://github.com/](https://github.com/)<your-username>/LMS.git
+git clone https://github.com/priyank-7/lms/
 cd LMS
 mvn clean install
 ```
