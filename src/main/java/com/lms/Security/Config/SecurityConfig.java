@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,7 +42,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/user/auth").permitAll()
+                        .requestMatchers("/user/auth", "/login").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
@@ -50,7 +51,9 @@ public class SecurityConfig {
                 .exceptionHandling( ex -> ex.authenticationEntryPoint((request, response, authException) -> {
                     response.setStatus(401);
                     response.getWriter().write("Unauthorized");
-                }));
+                }))
+                .oauth2Login(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults());
         return http.build();
     }
 
