@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,8 +48,8 @@ public class ResultController {
     }
 
     @GetMapping("{studentId}/getByStudentId")
-    public ResponseEntity<List<ResultDTO>> findResultByStudentId(@PathVariable String studentId) {
-        return ResponseEntity.ok(resultService.getResultByStudentId(studentId));
+    public ResponseEntity<List<ResultDTO>> findResultByStudentId(@PathVariable String studentId, Authentication authentication) {
+        return ResponseEntity.ok(resultService.getResultByStudentId(studentId, authentication));
     }
 
     @PreAuthorize("hasRole('ROLE_FACULTY')")

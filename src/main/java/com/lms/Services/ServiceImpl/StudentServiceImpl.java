@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class StudentServiceImpl implements StudentService {
 
+    StringBuilder sb = new StringBuilder("skjn");
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
@@ -45,6 +46,7 @@ public class StudentServiceImpl implements StudentService {
         String Id = UlidCreator.getUlid().toString();
         studentDTO.setStudent_id(Id);
         User tempUser = User.builder().user_id(Id).email(studentDTO.getEmail()).password(passwordEncoder.encode(studentDTO.getPassword())).build();
+        //tempUser.setProvider(Provider.local.name());
         Optional.ofNullable(tempUser.getRoles())
                 .orElse(new HashSet<>())
                 .add(this.roleRepository.findByName(Roles.ROLE_STUDENT.toString()).orElseThrow(()-> new ResourceNotFoundException("Role not found")));

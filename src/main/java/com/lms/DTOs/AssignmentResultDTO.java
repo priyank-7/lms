@@ -4,12 +4,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Builder
 @Getter
 @Setter
-public class AssignmentResultDTO {
+public class AssignmentResultDTO implements Serializable {
 
     private String assignmentResult_id;
     @NotNull(message = "Obtained marks cannot be null")

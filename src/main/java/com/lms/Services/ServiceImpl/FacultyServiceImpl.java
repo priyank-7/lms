@@ -5,6 +5,7 @@ import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.FacultyDTO;
 import com.lms.Entities.Branch;
 import com.lms.Entities.Faculty;
+import com.lms.Entities.Provider;
 import com.lms.Entities.User;
 import com.lms.Exception.BadCredentialsException;
 import com.lms.Exception.ResourceNotFoundException;
@@ -61,6 +62,7 @@ public class FacultyServiceImpl implements FacultyService {
     public FacultyDTO addFaculty(FacultyDTO facultyDTO) throws DataIntegrityViolationException {
         facultyDTO.setFaculty_id(UlidCreator.getUlid().toString());
         User tempUser = User.builder().user_id(facultyDTO.getFaculty_id()).email(facultyDTO.getEmail()).password(passwordEncoder.encode(facultyDTO.getPassword())).build();
+        //tempUser.setProvider(Provider.local.name());
         Optional.ofNullable(tempUser.getRoles())
                 .orElse(new HashSet<>())
                 .add(this.roleRepository.findByName(Roles.ROLE_STUDENT.toString()).orElseThrow(()-> new ResourceNotFoundException("Role not found")));

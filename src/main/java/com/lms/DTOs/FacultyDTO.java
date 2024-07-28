@@ -8,13 +8,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Builder
 @Getter
 @Setter
-public class FacultyDTO {
+public class FacultyDTO implements Serializable {
 
     private String faculty_id;
     @NotBlank(message = "Faculty name cannot be blank")

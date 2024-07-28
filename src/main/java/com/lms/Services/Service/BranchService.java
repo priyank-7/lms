@@ -1,5 +1,6 @@
 package com.lms.Services.Service;
 
+import com.lms.DTOs.BranchDTO;
 import com.lms.Entities.Branch;
 import com.lms.Exception.ResourceNotFoundException;
 
@@ -7,15 +8,15 @@ import java.util.List;
 
 public interface BranchService {
 
-    Branch addBranch(Branch branch);
+    BranchDTO addBranch(Branch branch);
 
     void deleteBranch(String id) throws ResourceNotFoundException;
 
-    Branch updateBranch(String id, Branch branch) throws ResourceNotFoundException;
+    BranchDTO updateBranch(String id, Branch branch) throws ResourceNotFoundException;
 
-    Branch getBranch(String id);
+    BranchDTO getBranch(String id);
 
-    List<Branch> getAllBranches();
+    List<BranchDTO> getAllBranches();
 
-    Branch getBranchByName(String name);
+    BranchDTO getBranchByName(String name);
 }

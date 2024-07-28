@@ -57,3 +57,6 @@ In case of maven is not installed, you can use the maven wrapper:
 ./mvnw clean install
 ```
 The application will be running on port: 8080.
+
+**Documentation:**
+* https://documenter.getpostman.com/view/27597906/2sA3XV7eRW

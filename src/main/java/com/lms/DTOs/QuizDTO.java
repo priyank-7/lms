@@ -8,12 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Builder
 @Getter
 @Setter
-public class QuizDTO {
+public class QuizDTO implements Serializable {
 
     private String quiz_id;
     @NotNull(message = "Total marks cannot be null")

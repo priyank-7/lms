@@ -6,12 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @Builder
-public class QuizResultDTO {
+public class QuizResultDTO implements Serializable {
 
     private String quizResult_id;
     @NotNull(message = "Obtained marks cannot be null")

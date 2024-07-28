@@ -11,13 +11,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Builder
 @Getter
 @Setter
-public class StudentDTO {
+public class StudentDTO implements Serializable {
 
     private String student_id;
     @NotBlank(message = "Name cannot be blank")

@@ -8,12 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Builder
 @Getter
 @Setter
-public class AssignmentDTO {
+public class AssignmentDTO implements Serializable {
 
     private String assignment_id;
     @NotNull(message = "Total marks cannot be null")

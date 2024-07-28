@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Builder
 @Getter
 @Setter
-public class CourseDTO {
+public class CourseDTO implements Serializable {
 
     private String course_id;
     @NotBlank(message = "Course code cannot be blank")

@@ -1,6 +1,7 @@
 package com.lms.Services.ServiceImpl;
 
 import com.github.f4b6a3.ulid.UlidCreator;
+import com.lms.Entities.Provider;
 import com.lms.Entities.Role;
 import com.lms.Entities.User;
 import com.lms.Exception.ResourceNotFoundException;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user) throws DataIntegrityViolationException {
         user.setUser_id(UlidCreator.getUlid().toString());
+        //user.setProvider(Provider.local.name());
         return this.userRepository.save(user);
     }
 

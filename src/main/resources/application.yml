@@ -11,6 +11,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
   jackson:
     serialization:
@@ -25,11 +29,11 @@ spring:
       client:
         registration:
           github:
-            clientId: 46ee898e3751f70f59c4
-            clientSecret: 06dfd36bab3a24d588f81dfb8fa49a32b0f9fcbb
+            clientId: id
+            clientSecret: secret
 
-logging:
-  level:
-    org:
-      springframework:
-        security: TRACE
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: TRACE
