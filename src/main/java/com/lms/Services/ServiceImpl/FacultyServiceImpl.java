@@ -5,7 +5,6 @@ import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.FacultyDTO;
 import com.lms.Entities.Branch;
 import com.lms.Entities.Faculty;
-import com.lms.Entities.Provider;
 import com.lms.Entities.User;
 import com.lms.Exception.BadCredentialsException;
 import com.lms.Exception.ResourceNotFoundException;

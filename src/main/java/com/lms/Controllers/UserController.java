@@ -13,18 +13,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     private final UserService userService;
 
@@ -47,7 +51,6 @@ public class UserController {
             throw new BadCredentialsException("Invalid username or password");
         }
     }
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/getRole")
     public ResponseEntity<List<Role>> getRole(){

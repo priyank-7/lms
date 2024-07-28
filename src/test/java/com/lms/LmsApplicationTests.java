@@ -6,7 +6,9 @@ import com.lms.Entities.Assignment;
 import com.lms.Entities.Course;
 import com.lms.Entities.Role;
 import com.lms.Entities.User;
+import com.lms.Exception.ResourceNotFoundException;
 import com.lms.Helper.DateTime.DateTimeUtilities;
+import com.lms.Helper.ModelMappers.StudentMapper;
 import com.lms.Helper.Roles;
 import com.lms.Repositories.*;
 import com.lms.Security.Config.CustomUserDetails;
@@ -16,10 +18,10 @@ import com.lms.Services.ServiceImpl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest
 class LmsApplicationTests {
@@ -42,8 +44,8 @@ class LmsApplicationTests {
 //    @Autowired
 //    private RoleRepository roleRepository;
 //
-//    @Autowired
-//    private StudentServiceImpl studentService;
+    @Autowired
+    private StudentServiceImpl studentService;
 //
 //    @Autowired
 //    private UserDetailServiceImpl userDetailService;
@@ -90,14 +92,16 @@ class LmsApplicationTests {
 //                }
 //    }
 
-//    @Test
-//    void addStudent(){
+    @Test
+    void addStudent(){
+
+
 //        studentService.addStudent(StudentDTO.builder()
 //                .student_id(UlidCreator.getUlid().toString())
 //                .email("dksjnk@gmail.com")
 //                .password("1234")
 //                .build());
-//    }
+    }
 
 //    @Test
 //    void addRole(){

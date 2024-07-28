@@ -1,7 +1,6 @@
 package com.lms.Services.ServiceImpl;
 
 import com.github.f4b6a3.ulid.UlidCreator;
-import com.lms.Entities.Provider;
 import com.lms.Entities.Role;
 import com.lms.Entities.User;
 import com.lms.Exception.ResourceNotFoundException;
