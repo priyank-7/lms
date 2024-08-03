@@ -66,7 +66,6 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    @Cacheable("resultById")
     public ResultDTO getResultById(String studentId, String courseId) {
         return ResultMapper.ResultTOResultDTO(resultRepository.findById(
                 ResultMapper.mapToPKResult(

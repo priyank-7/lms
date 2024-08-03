@@ -2,20 +2,19 @@ package com.lms.Services.Service;
 
 import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.QuizDTO;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
 public interface QuizService {
 
-    List<QuizDTO> getAllQuizzes();
+    QuizDTO getQuizById(String id, Authentication connectedUser);
 
-    QuizDTO getQuizById(String id);
+    QuizDTO addQuiz(QuizDTO quizDTO, String courseId, Authentication connectedUser);
 
-    QuizDTO addQuiz(QuizDTO quizDTO, String courseId);
+    QuizDTO updateQuiz(String id, QuizDTO quizDTO, Authentication connectedUser);
 
-    QuizDTO updateQuiz(String id, QuizDTO quizDTO);
+    void deleteQuiz(String id, Authentication connectedUser);
 
-    void deleteQuiz(String id);
-
-    List<QuizDTO> getQuizByCourse(CourseDTO course);
+    List<QuizDTO> getQuizByCourse(String courseId, Authentication connectedUser);
 }

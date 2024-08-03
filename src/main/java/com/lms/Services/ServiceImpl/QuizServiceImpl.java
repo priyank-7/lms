@@ -5,14 +5,17 @@ import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.QuizDTO;
 import com.lms.Entities.Course;
 import com.lms.Entities.Quiz;
+import com.lms.Entities.User;
 import com.lms.Exception.ResourceNotFoundException;
 import com.lms.Helper.DateTime.DateTimeUtilities;
 import com.lms.Helper.ModelMappers.CourseMapper;
 import com.lms.Helper.ModelMappers.QuizMapper;
 import com.lms.Repositories.CourseRepository;
+import com.lms.Repositories.FacultyRepository;
 import com.lms.Repositories.QuizRepository;
 import com.lms.Services.Service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,30 +26,32 @@ public class QuizServiceImpl implements QuizService {
 
     private final QuizRepository quizRepository;
     private final CourseRepository courseRepository;
+    private final FacultyRepository facultyRepository;
 
     @Autowired
-    public QuizServiceImpl(QuizRepository quizRepository, CourseRepository courseRepository) {
+    public QuizServiceImpl(QuizRepository quizRepository, CourseRepository courseRepository, FacultyRepository facultyRepository) {
         this.quizRepository = quizRepository;
         this.courseRepository = courseRepository;
-    }
-
-
-    @Override
-    public List<QuizDTO> getAllQuizzes() {
-        return Optional.of(this.quizRepository.findAll())
-                .orElse(Collections.emptyList())
-                .stream().map(QuizMapper::QuizToQuizDTO)
-                .collect(Collectors.toList());
+        this.facultyRepository = facultyRepository;
     }
 
     @Override
-    public QuizDTO getQuizById(String id) {
-        return QuizMapper.QuizToQuizDTO(this.quizRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Quiz not found")));
+    public QuizDTO getQuizById(String id, Authentication connectedUser) {
+        var tempQuiz = this.quizRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Quiz not found"));
+        User user = (User)connectedUser.getPrincipal();
+        if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), tempQuiz.getCourse().getCourse_id())){
+            throw new ResourceNotFoundException("User not assigned to course");
+        }
+        return QuizMapper.QuizToQuizDTO(tempQuiz);
     }
 
     @Override
-    public QuizDTO addQuiz(QuizDTO quizDTO, String courseId) {
+    public QuizDTO addQuiz(QuizDTO quizDTO, String courseId, Authentication connectedUser) {
+        User user = (User)connectedUser.getPrincipal();
+        if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), courseId)){
+            throw new ResourceNotFoundException("User not assigned to course");
+        }
         quizDTO.setCourse(
                 CourseMapper.CourseToCourseDTO(this.courseRepository.findById(courseId)
                 .orElseThrow(()-> new ResourceNotFoundException("Course not found"))));
@@ -57,26 +62,42 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizDTO updateQuiz(String id, QuizDTO quizDTO) {
+    public QuizDTO updateQuiz(String id, QuizDTO quizDTO, Authentication connectedUser) {
+        User user = (User)connectedUser.getPrincipal();
+        if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), quizDTO.getCourse().getCourse_id())){
+            throw new ResourceNotFoundException("User not assigned to course");
+        }
         Quiz quiz = this.quizRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Quiz not found"));
         return QuizMapper.QuizToQuizDTO(this.quizRepository.save(QuizMapper.QuizDTOToQuiz(quizDTO, quiz)));
     }
 
     @Override
-    public void deleteQuiz(String id) {
-        this.quizRepository.delete(this.quizRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Quiz not found")));
+    public void deleteQuiz(String id, Authentication connectedUser) {
+        Quiz tempQuiz = this.quizRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Quiz not found"));
+        User user = (User)connectedUser.getPrincipal();
+        if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), tempQuiz.getCourse().getCourse_id())){
+            throw new ResourceNotFoundException("User not assigned to course");
+        }
+        this.quizRepository.delete(tempQuiz);
     }
 
     @Override
-    public List<QuizDTO> getQuizByCourse(CourseDTO course) {
-        Course tempCourse = this.courseRepository.findById(course.getCourse_id())
+    public List<QuizDTO> getQuizByCourse(String courseId, Authentication connectedUser) {
+        User user = (User)connectedUser.getPrincipal();
+        if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), courseId)){
+            throw new ResourceNotFoundException("User not assigned to course");
+        }
+        Course tempCourse = this.courseRepository.findById(courseId)
                         .orElseThrow(()-> new ResourceNotFoundException("Course not found"));
-        System.out.println(DateTimeUtilities.firstDayOfYear());
         return Optional.of(this.quizRepository.findAllByPostedOnAfterAndCourse(DateTimeUtilities.firstDayOfYear(), tempCourse))
                 .orElse(Collections.emptyList())
                 .stream().map(QuizMapper::QuizToQuizDTO)
                 .collect(Collectors.toList());
+    }
+
+    private boolean checkIfFacultyIsAssignedToCourse(String faculty_id, String courseId){
+        return this.facultyRepository.findFacultyByCourseListExists(faculty_id, courseId) >= 0;
     }
 }
