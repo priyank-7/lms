@@ -2,10 +2,7 @@ package com.lms;
 
 import com.github.f4b6a3.ulid.UlidCreator;
 import com.lms.DTOs.StudentDTO;
-import com.lms.Entities.Assignment;
-import com.lms.Entities.Course;
-import com.lms.Entities.Role;
-import com.lms.Entities.User;
+import com.lms.Entities.*;
 import com.lms.Exception.ResourceNotFoundException;
 import com.lms.Helper.DateTime.DateTimeUtilities;
 import com.lms.Helper.ModelMappers.StudentMapper;
@@ -32,8 +29,11 @@ class LmsApplicationTests {
 //    @Autowired
 //    private AssignmentRepository assignmentRepository;
 //
-//    @Autowired
-//    private CourseRepository courseRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private FacultyRepository facultyRepository;
 //
 //    @Autowired
 //    private UserRepository userRepository;
@@ -135,6 +135,58 @@ class LmsApplicationTests {
 //        }
 //
 //    }
+
+
+    @Autowired
+    private QuizQuestionsRepository quizQuestionsRepository;
+    @Test
+    void SaveQuizQuestionsTest(){
+        QuizQuestions quiz = QuizQuestions.builder()
+                .quizId(UlidCreator.getUlid().toString())
+                .questions(
+                        List.of(
+                                QuizQuestion.builder()
+                                        .questionId(UlidCreator.getUlid().toString())
+                                        .question("What is the capital of India?")
+                                        .isMultipleChoice(true)
+                                        .options(List.of("Delhi", "Mumbai", "Kolkata", "Chennai"))
+                                        .build(),
+                                QuizQuestion.builder()
+                                        .questionId(UlidCreator.getUlid().toString())
+                                        .question("What is the capital of USA?")
+                                        .isMultipleChoice(true)
+                                        .options(List.of("Washington DC", "New York", "Los Angeles", "Chicago"))
+                                        .build(),
+                                QuizQuestion.builder()
+                                        .questionId(UlidCreator.getUlid().toString())
+                                        .question("What is the capital of UK?")
+                                        .isMultipleChoice(true)
+                                        .options(List.of("London", "Manchester", "Birmingham", "Liverpool"))
+                                        .build(),
+                                QuizQuestion.builder()
+                                        .questionId(UlidCreator.getUlid().toString())
+                                        .question("What is the capital of UK?")
+                                        .isMultipleChoice(false)
+                                        .build()
+                        )
+                )
+                .build();
+        quiz = this.quizQuestionsRepository.save(quiz);
+        System.out.println(quiz);
+    }
+
+    @Test
+    void getQuizQuestionsTest(){
+        QuizQuestions quiz = this.quizQuestionsRepository.findByQuizId("01J4B91Z458A32GRRMRPEDPST0").orElseThrow(() -> new ResourceNotFoundException("Quiz not found"));
+        System.out.println(quiz);
+    }
+
+    @Test
+    void findCourseByFacultiesContaining(){
+        System.out.println(
+           this.facultyRepository.findFacultyByCourseListExists("01HSR4EDGGEHQKGWKRKN338DNX","ac52cee3-d72c-4add-955e-d18f1c86fa6")
+        );
+    }
 
 
 }
