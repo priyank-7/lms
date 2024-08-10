@@ -1,7 +1,6 @@
 package com.lms.Services.ServiceImpl;
 
 import com.github.f4b6a3.ulid.UlidCreator;
-import com.lms.DTOs.CourseDTO;
 import com.lms.DTOs.QuizDTO;
 import com.lms.Entities.Course;
 import com.lms.Entities.Quiz;
@@ -13,6 +12,7 @@ import com.lms.Helper.ModelMappers.QuizMapper;
 import com.lms.Repositories.CourseRepository;
 import com.lms.Repositories.FacultyRepository;
 import com.lms.Repositories.QuizRepository;
+import com.lms.Repositories.StudentCourseRepository;
 import com.lms.Services.Service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,18 +28,37 @@ public class QuizServiceImpl implements QuizService {
     private final CourseRepository courseRepository;
     private final FacultyRepository facultyRepository;
 
+    private final StudentCourseRepository studentCourseRepository;
+
     @Autowired
-    public QuizServiceImpl(QuizRepository quizRepository, CourseRepository courseRepository, FacultyRepository facultyRepository) {
+    public QuizServiceImpl(QuizRepository quizRepository, CourseRepository courseRepository, FacultyRepository facultyRepository, StudentCourseRepository studentCourseRepository) {
         this.quizRepository = quizRepository;
         this.courseRepository = courseRepository;
         this.facultyRepository = facultyRepository;
+        this.studentCourseRepository = studentCourseRepository;
     }
 
     @Override
     public QuizDTO getQuizById(String id, Authentication connectedUser) {
+
         var tempQuiz = this.quizRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Quiz not found"));
+
         User user = (User)connectedUser.getPrincipal();
+        user.getRoles().forEach(role -> {
+            if(role.getName().equals("ROLE_FACULTY")){
+                if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), tempQuiz.getCourse().getCourse_id())){
+                    throw new ResourceNotFoundException("User not assigned to course");
+                }
+            }
+            else if(role.getName().equals("ROLE_STUDENT") || role.getName().equals("ROLE_TEACHING_ASSISTANT")){
+                if(!checkIfStudentIsAnrolledToCourse(user.getUser_id(), tempQuiz.getCourse().getCourse_id())){
+                    throw new ResourceNotFoundException("User not assigned to course");
+                }
+            }
+            else throw new ResourceNotFoundException("User not assigned to course");
+        });
+
         if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), tempQuiz.getCourse().getCourse_id())){
             throw new ResourceNotFoundException("User not assigned to course");
         }
@@ -85,19 +104,35 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<QuizDTO> getQuizByCourse(String courseId, Authentication connectedUser) {
-        User user = (User)connectedUser.getPrincipal();
-        if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), courseId)){
-            throw new ResourceNotFoundException("User not assigned to course");
-        }
+
         Course tempCourse = this.courseRepository.findById(courseId)
-                        .orElseThrow(()-> new ResourceNotFoundException("Course not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Course not found"));
+
+        User user = (User)connectedUser.getPrincipal();
+        user.getRoles().forEach(role -> {
+            if(role.getName().equals("ROLE_FACULTY")){
+                if(!checkIfFacultyIsAssignedToCourse(user.getUser_id(), tempCourse.getCourse_id())){
+                    throw new ResourceNotFoundException("User not assigned to course");
+                }
+            }
+            else if(role.getName().equals("ROLE_STUDENT") || role.getName().equals("ROLE_TEACHING_ASSISTANT")){
+                if(!checkIfStudentIsAnrolledToCourse(user.getUser_id(), tempCourse.getCourse_id())){
+                    throw new ResourceNotFoundException("User not assigned to course");
+                }
+            }
+            else throw new ResourceNotFoundException("User not assigned to course");
+        });
+
         return Optional.of(this.quizRepository.findAllByPostedOnAfterAndCourse(DateTimeUtilities.firstDayOfYear(), tempCourse))
                 .orElse(Collections.emptyList())
                 .stream().map(QuizMapper::QuizToQuizDTO)
                 .collect(Collectors.toList());
     }
-
     private boolean checkIfFacultyIsAssignedToCourse(String faculty_id, String courseId){
-        return this.facultyRepository.findFacultyByCourseListExists(faculty_id, courseId) >= 0;
+        return this.facultyRepository.findFacultyByCourseListExists(faculty_id, courseId) > 0;
+    }
+
+    private boolean checkIfStudentIsAnrolledToCourse(String student_id, String courseId){
+        return this.studentCourseRepository.findStudentByCourseListExists(student_id, courseId) > 0;
     }
 }

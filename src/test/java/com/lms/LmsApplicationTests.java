@@ -34,6 +34,9 @@ class LmsApplicationTests {
 
     @Autowired
     private FacultyRepository facultyRepository;
+
+    @Autowired
+    private StudentCourseRepository studentCourseRepository;
 //
 //    @Autowired
 //    private UserRepository userRepository;
@@ -185,6 +188,13 @@ class LmsApplicationTests {
     void findCourseByFacultiesContaining(){
         System.out.println(
            this.facultyRepository.findFacultyByCourseListExists("01HSR4EDGGEHQKGWKRKN338DNX","ac52cee3-d72c-4add-955e-d18f1c86fa6")
+        );
+    }
+
+    @Test
+    void findCourseByStudentContaining(){
+        System.out.println(
+           this.studentCourseRepository.findStudentByCourseListExists("01HT23X383VH236FQZ6T5K134P","ac52cee3-d72c-4add-955e-d18f1c86fa6c")
         );
     }
 

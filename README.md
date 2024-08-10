@@ -41,9 +41,9 @@ cd LMS
 
 Before running the application, Configure database connection and Redis settings.
 
-Database Configuration: Update the <code>application.properties</code> file with MySQL connection details
+Database Configuration: Update the <code>application.yml</code> file with MySQL connection details
 
-Redis Cache Configuration: Update the <code>application.properties</code> file with Redis connection details: host, port
+Redis Cache Configuration: Update the <code>application.yml</code> file with Redis connection details: host, port
 
 **Running the application:**
 
