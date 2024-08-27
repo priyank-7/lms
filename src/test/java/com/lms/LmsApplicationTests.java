@@ -44,8 +44,8 @@ class LmsApplicationTests {
 //    @Autowired
 //    private ResultServiceImpl resultService;
 //
-//    @Autowired
-//    private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 //
     @Autowired
     private StudentServiceImpl studentService;
@@ -80,6 +80,26 @@ class LmsApplicationTests {
 
     }
 
+    @Test
+    void addRole(){
+        roleRepository.save(Role.builder()
+                .role_id(UlidCreator.getUlid().toString())
+                .name(Roles.ROLE_ADMIN.toString())
+                .build());
+        roleRepository.save(Role.builder()
+                .role_id(UlidCreator.getUlid().toString())
+                .name(Roles.ROLE_FACULTY.toString())
+                .build());
+        roleRepository.save(Role.builder()
+                .role_id(UlidCreator.getUlid().toString())
+                .name(Roles.ROLE_STUDENT.toString())
+                .build());
+        roleRepository.save(Role.builder()
+                .role_id(UlidCreator.getUlid().toString())
+                .name(Roles.ROLE_TEACHING_ASSISTANT.toString())
+                .build());
+    }
+
 //    @Test
 //    void setAssignmentRepository(){
 //
@@ -99,32 +119,12 @@ class LmsApplicationTests {
     void addStudent(){
 
 
-//        studentService.addStudent(StudentDTO.builder()
-//                .student_id(UlidCreator.getUlid().toString())
-//                .email("dksjnk@gmail.com")
-//                .password("1234")
-//                .build());
+        studentService.addStudent(StudentDTO.builder()
+                .student_id(UlidCreator.getUlid().toString())
+                .email("dksjnk@gmail.com")
+                .password("1234")
+                .build());
     }
-
-//    @Test
-//    void addRole(){
-//        roleRepository.save(Role.builder()
-//                .role_id(UlidCreator.getUlid().toString())
-//                .name(Roles.ROLE_ADMIN.toString())
-//                .build());
-//        roleRepository.save(Role.builder()
-//                .role_id(UlidCreator.getUlid().toString())
-//                .name(Roles.ROLE_FACULTY.toString())
-//                .build());
-//        roleRepository.save(Role.builder()
-//                .role_id(UlidCreator.getUlid().toString())
-//                .name(Roles.ROLE_STUDENT.toString())
-//                .build());
-//        roleRepository.save(Role.builder()
-//                .role_id(UlidCreator.getUlid().toString())
-//                .name(Roles.ROLE_TEACHING_ASSISTANT.toString())
-//                .build());
-//    }
 
 
 //    @Test
@@ -142,6 +142,8 @@ class LmsApplicationTests {
 
     @Autowired
     private QuizQuestionsRepository quizQuestionsRepository;
+
+
     @Test
     void SaveQuizQuestionsTest(){
         QuizQuestions quiz = QuizQuestions.builder()
@@ -177,26 +179,5 @@ class LmsApplicationTests {
         quiz = this.quizQuestionsRepository.save(quiz);
         System.out.println(quiz);
     }
-
-    @Test
-    void getQuizQuestionsTest(){
-        QuizQuestions quiz = this.quizQuestionsRepository.findByQuizId("01J4B91Z458A32GRRMRPEDPST0").orElseThrow(() -> new ResourceNotFoundException("Quiz not found"));
-        System.out.println(quiz);
-    }
-
-    @Test
-    void findCourseByFacultiesContaining(){
-        System.out.println(
-           this.facultyRepository.findFacultyByCourseListExists("01HSR4EDGGEHQKGWKRKN338DNX","ac52cee3-d72c-4add-955e-d18f1c86fa6")
-        );
-    }
-
-    @Test
-    void findCourseByStudentContaining(){
-        System.out.println(
-           this.studentCourseRepository.findStudentByCourseListExists("01HT23X383VH236FQZ6T5K134P","ac52cee3-d72c-4add-955e-d18f1c86fa6c")
-        );
-    }
-
 
 }
